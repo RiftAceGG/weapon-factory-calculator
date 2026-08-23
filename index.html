@@ -11,6 +11,8 @@
     --bg:#faf8f2;
     --panel:#ffffff;
     --panel-2:#f1eee2;
+    --panel-3:#fffaf0;
+    --header-bg:rgba(250,248,242,0.9);
     --ink:#17181c;
     --ink-dim:#5b5d63;
     --line:#e4e0d0;
@@ -20,6 +22,40 @@
     --green:#12c48b;
     --pink:#ff2f9e;
     --purple:#7c3aed;
+    --tint-green:rgba(18,196,139,0.16);
+    --tint-orange:rgba(255,67,26,0.12);
+    --tint-blue:rgba(11,107,255,0.12);
+    --tint-yellow:rgba(255,199,0,0.35);
+    --wash-1:rgba(255,199,0,0.28);
+    --wash-2:rgba(11,107,255,0.22);
+    --wash-3:rgba(255,67,26,0.20);
+    --wash-4:rgba(18,196,139,0.18);
+    --wash-base:linear-gradient(160deg, #fffceb 0%, #faf8f2 45%, #fef4ee 100%);
+  }
+  [data-theme="dark"]{
+    --bg:#121319;
+    --panel:#1b1c24;
+    --panel-2:#23242e;
+    --panel-3:#272835;
+    --header-bg:rgba(18,19,25,0.88);
+    --ink:#f3f2ee;
+    --ink-dim:#a3a3ad;
+    --line:#33343f;
+    --yellow:#ffd23f;
+    --orange:#ff6a45;
+    --blue:#4d94ff;
+    --green:#2ee6a6;
+    --pink:#ff5cb8;
+    --purple:#a78bfa;
+    --tint-green:rgba(46,230,166,0.16);
+    --tint-orange:rgba(255,106,69,0.16);
+    --tint-blue:rgba(77,148,255,0.18);
+    --tint-yellow:rgba(255,210,63,0.22);
+    --wash-1:rgba(255,210,63,0.14);
+    --wash-2:rgba(77,148,255,0.14);
+    --wash-3:rgba(255,106,69,0.12);
+    --wash-4:rgba(46,230,166,0.10);
+    --wash-base:linear-gradient(160deg, #16171f 0%, #121319 45%, #15141c 100%);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -27,18 +63,18 @@
   body::before{
     content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
     background:
-      radial-gradient(ellipse 60% 50% at 12% 8%, rgba(255,199,0,0.28), transparent 60%),
-      radial-gradient(ellipse 55% 45% at 90% 12%, rgba(11,107,255,0.22), transparent 60%),
-      radial-gradient(ellipse 60% 55% at 82% 88%, rgba(255,67,26,0.20), transparent 62%),
-      radial-gradient(ellipse 55% 50% at 8% 85%, rgba(18,196,139,0.18), transparent 60%),
-      linear-gradient(160deg, #fffceb 0%, #faf8f2 45%, #fef4ee 100%);
+      radial-gradient(ellipse 60% 50% at 12% 8%, var(--wash-1), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 90% 12%, var(--wash-2), transparent 60%),
+      radial-gradient(ellipse 60% 55% at 82% 88%, var(--wash-3), transparent 62%),
+      radial-gradient(ellipse 55% 50% at 8% 85%, var(--wash-4), transparent 60%),
+      var(--wash-base);
   }
-  ::selection{background:var(--yellow); color:var(--ink);}
+  ::selection{background:var(--yellow); color:#17181c;}
   a{color:inherit;}
 
   .hazard{ height:14px; background:repeating-linear-gradient(135deg, var(--yellow) 0 22px, var(--ink) 22px 44px); }
 
-  header{ position:sticky; top:0; z-index:50; background:rgba(250,248,242,0.9); backdrop-filter:blur(8px); border-bottom:2px solid var(--ink); }
+  header{ position:sticky; top:0; z-index:50; background:var(--header-bg); backdrop-filter:blur(8px); border-bottom:2px solid var(--ink); }
   .nav-wrap{ max-width:1220px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
   .brand{ font-family:'Anton', sans-serif; font-size:1.25rem; letter-spacing:1px; display:flex; align-items:center; gap:10px; }
   .brand .dot{width:12px; height:12px; background:var(--orange); border-radius:2px;}
@@ -47,8 +83,16 @@
   nav a::after{ content:""; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:var(--orange); transition:width .2s ease; }
   nav a:hover::after, nav a:focus-visible::after{ width:100%; }
   nav a:hover, nav a:focus-visible{color:var(--orange);}
-  .nav-cta{ font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; background:var(--ink); color:var(--yellow); padding:10px 18px; text-decoration:none; border:2px solid var(--ink); transition:background .15s, color .15s; }
+  .nav-cta{ font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; background:#17181c; color:var(--yellow); padding:10px 18px; text-decoration:none; border:2px solid var(--ink); transition:background .15s, color .15s; }
   .nav-cta:hover{background:var(--orange); color:var(--ink); border-color:var(--orange);}
+  .nav-actions{display:flex; align-items:center; gap:12px;}
+  .theme-toggle{
+    width:42px; height:42px; display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--ink); background:var(--panel); cursor:pointer;
+    transition:transform .15s ease, background .15s ease; flex:0 0 auto;
+  }
+  .theme-toggle:hover{ transform:translateY(-2px); background:var(--panel-2); }
+  .theme-icon{ font-size:1.1rem; line-height:1; }
   @media (max-width:820px){ nav ul{display:none;} }
 
   .hero{ position:relative; padding:100px 24px 70px; max-width:1220px; margin:0 auto; text-align:center; }
@@ -58,7 +102,7 @@
       radial-gradient(ellipse 60% 50% at 50% 95%, rgba(255,67,26,0.20), transparent 55%);
     pointer-events:none; z-index:0; }
   .hero > *{position:relative; z-index:1;}
-  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--ink); background:var(--yellow); padding:6px 14px; margin-bottom:28px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); animation:eyebrow-pulse 3s ease-in-out infinite; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:#17181c; background:var(--yellow); padding:6px 14px; margin-bottom:28px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); animation:eyebrow-pulse 3s ease-in-out infinite; }
   @keyframes eyebrow-pulse{ 0%,100%{ box-shadow:3px 3px 0 var(--ink); } 50%{ box-shadow:3px 3px 0 var(--ink), 0 0 18px rgba(255,199,0,0.5); } }
   h1.title{ font-family:'Anton', sans-serif; font-size:clamp(2.8rem, 9vw, 6.6rem); line-height:0.92; letter-spacing:1px; text-transform:uppercase; color:var(--ink); }
   h1.title span{color:var(--orange);}
@@ -103,19 +147,19 @@
 
   /* CRAFTING */
   .craft-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-top:40px;}
-  .craft-tab{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.95rem; padding:12px 22px; border:2px solid var(--ink); background:var(--panel); cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:background .12s,color .12s,transform .12s,box-shadow .12s; }
+  .craft-tab{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.95rem; padding:12px 22px; border:2px solid var(--ink); background:var(--panel); color:var(--ink); cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:background .12s,color .12s,transform .12s,box-shadow .12s; }
   .craft-tab:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink); }
   .craft-tab.active{background:linear-gradient(135deg, var(--orange), var(--pink)); color:#fff; border-color:var(--ink);}
 
   .variant-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:20px;}
-  .vbtn{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; padding:8px 14px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; transition:transform .12s, background .12s; }
+  .vbtn{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; padding:8px 14px; border:2px solid var(--ink); background:var(--bg); color:var(--ink); cursor:pointer; transition:transform .12s, background .12s; }
   .vbtn:hover{ transform:translateY(-2px); background:var(--panel-2); }
   .vbtn.active{background:linear-gradient(135deg, var(--blue), var(--purple)); color:#fff; border-color:var(--ink);}
 
   .tier-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
   .tier-chip{ font-family:'JetBrains Mono', monospace; font-size:0.68rem; font-weight:700; letter-spacing:0.5px; padding:5px 10px; border:2px solid var(--ink); text-transform:uppercase; }
 
-  .craft-panel{margin-top:34px; background:linear-gradient(165deg, #ffffff 0%, #fffaf0 100%); border:2px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:28px;}
+  .craft-panel{margin-top:34px; background:linear-gradient(165deg, var(--panel) 0%, var(--panel-3) 100%); border:2px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:28px;}
   .craft-panel h3{font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; font-weight:700; font-size:1.15rem; margin-bottom:18px;}
   .base-item{ display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--ink-dim); margin-bottom:22px; text-transform:uppercase; letter-spacing:0.5px;}
   .base-item .swatch{width:16px; height:16px; border:2px solid var(--ink); background:var(--panel-2);}
@@ -123,8 +167,8 @@
   table.tier-table{width:100%; border-collapse:collapse; font-size:0.9rem; min-width:520px;}
   table.tier-table th{ text-align:left; font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); padding:8px 10px; border-bottom:2px solid var(--ink); white-space:nowrap; }
   table.tier-table td{padding:9px 10px; border-bottom:1px solid var(--line); white-space:nowrap;}
-  table.tier-table tr.target-row td{background:#fff7d6; font-weight:700;}
-  table.tier-table tr.missing-row td{background:#fff1ec;}
+  table.tier-table tr.target-row td{background:var(--tint-yellow); font-weight:700;}
+  table.tier-table tr.missing-row td{background:var(--tint-orange);}
   .tier-badge{ display:inline-block; padding:4px 10px; font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; font-size:0.8rem; border:2px solid var(--ink); }
   .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; scrollbar-width:thin; scrollbar-color:var(--ink) var(--panel-2); border:1px solid var(--line); }
   .table-scroll::-webkit-scrollbar{height:8px;}
@@ -140,7 +184,7 @@
   }
   .plan-steps li::before{
     content:counter(step); position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    width:26px; height:26px; border-radius:50%; background:var(--ink); color:var(--yellow);
+    width:26px; height:26px; border-radius:50%; background:#17181c; color:var(--yellow);
     font-family:'Anton', sans-serif; font-size:0.85rem; display:flex; align-items:center; justify-content:center;
   }
   .plan-steps li.owned-step{border-color:var(--green);}
@@ -149,7 +193,7 @@
   .plan-steps li.craft-step::before{background:var(--orange); color:#fff;}
   .plan-steps li.craft-step b{color:var(--orange);}
   .plan-steps li .plan-gems{font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--ink-dim); display:block; margin-top:4px;}
-  .plan-empty{ color:var(--ink); font-weight:700; background:#eafff6; border:2px solid var(--green); padding:16px 18px; font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; letter-spacing:0.5px; }
+  .plan-empty{ color:var(--ink); font-weight:700; background:var(--tint-green); border:2px solid var(--green); padding:16px 18px; font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; letter-spacing:0.5px; }
 
   .calc-form{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px; align-items:end;}
   .calc-field label{ display:block; font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); margin-bottom:8px; }
@@ -157,8 +201,8 @@
   @media (max-width:760px){ .calc-form{grid-template-columns:1fr;} }
 
   .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
-  .btn-util{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.82rem; padding:10px 18px; min-height:40px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; transition:background .12s, color .12s; }
-  .btn-util:hover{background:var(--ink); color:var(--yellow);}
+  .btn-util{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.82rem; padding:10px 18px; min-height:40px; border:2px solid var(--ink); background:var(--bg); color:var(--ink); cursor:pointer; transition:background .12s, color .12s; }
+  .btn-util:hover{background:#17181c; color:var(--yellow);}
   .btn-util.primary{background:var(--blue); color:#fff; border-color:var(--blue);}
   .btn-util.primary:hover{background:#0855cc;}
   .btn-util.danger{background:var(--panel); color:var(--orange); border-color:var(--orange);}
@@ -166,15 +210,15 @@
 
   .save-status{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-dim); margin-top:10px; }
 
-  .tier-have-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(104px,1fr)); gap:10px; margin-top:6px;}
-  .tier-have-item{border:2px solid var(--ink); padding:10px; text-align:center; background:var(--bg);}
+  .tier-have-grid{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:6px;}
+  .tier-have-item{flex:1 1 104px; max-width:150px; border:2px solid var(--ink); padding:10px; text-align:center; background:var(--bg);}
   .tier-have-item .tlabel{display:inline-block; margin-bottom:8px; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.5px;}
-  .tier-have-item input{width:100%; min-height:40px; padding:8px; border:2px solid var(--ink); font-family:'JetBrains Mono',monospace; font-size:0.88rem; text-align:center; background:#fff; color:var(--ink);}
+  .tier-have-item input{width:100%; min-height:40px; padding:8px; border:2px solid var(--ink); font-family:'JetBrains Mono',monospace; font-size:0.88rem; text-align:center; background:var(--panel); color:var(--ink);}
   .tier-have-item.above-target{opacity:0.4;}
   .above-note{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:10px; line-height:1.6;}
 
-  .whatnext-box{ margin-top:28px; border:2px solid var(--blue); background:#eaf2ff; padding:18px 20px; }
-  .whatnext-box.ready{ border-color:var(--green); background:#eafff6; }
+  .whatnext-box{ margin-top:28px; border:2px solid var(--blue); background:var(--tint-blue); padding:18px 20px; }
+  .whatnext-box.ready{ border-color:var(--green); background:var(--tint-green); }
   .whatnext-title{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.78rem; color:var(--blue); margin-bottom:6px; }
   .whatnext-box.ready .whatnext-title{color:var(--green);}
   .whatnext-text{ font-size:1rem; font-weight:600; line-height:1.5; }
@@ -187,14 +231,15 @@
   .result-card .rlabel{font-family:'JetBrains Mono', monospace; font-size:0.65rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim);}
   .result-card .rval{font-family:'Anton', sans-serif; font-size:1.3rem; margin-top:6px; word-break:break-word;}
   .result-card .rexact{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:4px; line-height:1.5;}
-  .result-card.ready{border-color:var(--green); background:#eafff6;}
-  .result-card.short{border-color:var(--orange); background:#fff1ec;}
+  .result-card.ready{border-color:var(--green); background:var(--tint-green);}
+  .result-card.short{border-color:var(--orange); background:var(--tint-orange);}
 
   @media (max-width:380px){
     section{padding:60px 16px;}
     .craft-panel{padding:18px;}
     .btn-util{padding:9px 14px; font-size:0.76rem;}
-    .tier-have-grid{grid-template-columns:repeat(auto-fill, minmax(84px,1fr)); gap:8px;}
+    .tier-have-item{flex-basis:84px; max-width:120px;}
+    .tier-have-grid{gap:8px;}
     h1.title{font-size:clamp(2.2rem, 12vw, 4rem);}
   }
 
@@ -221,7 +266,7 @@
   .tip p{color:var(--ink-dim); font-size:0.9rem; line-height:1.55;}
   @media (max-width:760px){ .tips-grid{grid-template-columns:1fr;} }
 
-  .cta-strip{text-align:center; padding:90px 24px; background:linear-gradient(135deg, var(--purple) 0%, var(--blue) 45%, var(--ink) 100%); color:var(--bg);}
+  .cta-strip{text-align:center; padding:90px 24px; background:linear-gradient(135deg, var(--purple) 0%, var(--blue) 45%, #0c0d12 100%); color:#fff;}
   .cta-strip h2{color:#fff;}
   .cta-strip p{color:#e4e2ff; max-width:520px; margin:0 auto 32px;}
   .cta-strip .btn-primary{background:var(--orange); box-shadow:4px 4px 0 var(--yellow);}
@@ -230,10 +275,25 @@
   footer{padding:36px 24px 26px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--ink-dim); line-height:1.8;}
   footer .fbrand{color:var(--ink); font-weight:700; letter-spacing:1px;}
 
-  .toast{ position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--yellow); font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:12px 22px; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:100; }
+  .toast{ position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:#17181c; color:var(--yellow); font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:12px 22px; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:100; }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   :focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
 </style>
+<script>
+  // Applied as early as possible (before body paints) so switching themes
+  // never causes a flash of the wrong colors on load.
+  (function(){
+    try{
+      var saved = localStorage.getItem('weaponFactoryTheme');
+      var theme = saved === 'light' || saved === 'dark'
+        ? saved
+        : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if(theme === 'dark'){
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    }catch(e){ /* localStorage unavailable — default to light, no crash */ }
+  })();
+</script>
 </head>
 <body>
 
@@ -247,7 +307,12 @@
         <li><a href="#crafting">Crafting</a></li>
       </ul>
     </nav>
-    <a class="nav-cta" href="https://www.roblox.com/games/108452487199736" target="_blank" rel="noopener">Play Now</a>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+        <span class="theme-icon" id="themeIcon" aria-hidden="true">☀️</span>
+      </button>
+      <a class="nav-cta" href="https://www.roblox.com/games/108452487199736" target="_blank" rel="noopener">Play Now</a>
+    </div>
   </div>
 </header>
 
@@ -408,6 +473,42 @@ function loadSavedData(){
 }
 
 /* ============================================================
+   LIGHT / DARK THEME TOGGLE
+   The <head> script already applied any saved/system theme before
+   paint — this just wires up the button and keeps it in sync.
+============================================================ */
+const THEME_KEY = 'weaponFactoryTheme';
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+
+function getCurrentTheme(){
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+function applyThemeUI(theme){
+  if(theme === 'dark'){
+    themeIcon.textContent = '🌙';
+    themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    themeToggle.setAttribute('aria-pressed', 'true');
+  } else {
+    themeIcon.textContent = '☀️';
+    themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+    themeToggle.setAttribute('aria-pressed', 'false');
+  }
+}
+applyThemeUI(getCurrentTheme());
+
+themeToggle.addEventListener('click', () => {
+  const next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+  if(next === 'dark'){
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  applyThemeUI(next);
+  safeStorageSet(THEME_KEY, next);
+});
+
+/* ============================================================
    DATA — straight from the in-game crafting tables.
    To add another category, add a new key below CATEGORIES
    following the same shape: { label, baseItem, branch, tiers:[{needed,cost,total}, ...] }.
@@ -422,18 +523,14 @@ const TIER_NAMES  = ["Grey","Green","Cyan","Purple","Yellow","Pink","Red","Sky B
 const CATEGORIES = {
   artifact: {
     label: "Artifacts", baseItem: "Money, XP, Gems", branch: 5,
-    tiers: [
-      {needed:1,        cost:100000,      total:100000},
-      {needed:5,        cost:250000,      total:750000},
-      {needed:25,       cost:500000,      total:3250000},
-      {needed:125,      cost:1000000,     total:13750000},
-      {needed:625,      cost:3000000,     total:69250000},
-      {needed:3125,     cost:10000000,    total:376750000},
-      {needed:15625,    cost:50000000,    total:2133750000},
-      {needed:78125,    cost:250000000,   total:12418750000},
-      {needed:390625,   cost:1000000000,  total:71093750000},
-      {needed:1953125,  cost:5000000000,  total:412968750000}
-    ]
+    variants: ["Xp","Money","Gems"],
+    baseItemByVariant: { Xp: "XP", Money: "Money", Gems: "Gems" },
+    tier1Needed: [1,5,25,125,625,3125,15625,78125,390625,1953125],
+    costTotalByVariant: {
+      Xp:    [[100000,100000],[250000,750000],[500000,4250000],[1000000,22250000],[2000000,113250000],[5000000,571250000],[10000000,2866250000],[15000000,14346250000],[25000000,71756250000],[100000000,358881250000]],
+      Money: [[100000,100000],[250000,750000],[500000,4250000],[1000000,22250000],[2000000,113250000],[5000000,571250000],[10000000,2866250000],[15000000,14346250000],[25000000,71756250000],[100000000,358881250000]],
+      Gems:  [[100000,100000],[250000,750000],[500000,4250000],[1000000,22250000],[3000000,114250000],[10000000,581250000],[50000000,2956250000],[250000000,15031250000],[1000000000,76156250000],[5000000000,385781250000]]
+    }
   },
   pot: {
     label: "Pots", baseItem: "All Pots", branch: 5,
@@ -550,7 +647,10 @@ const state = { category:"artifact", variant:"Normal", targetTier:10 };
 const SAVED_DATA = loadSavedData();
 if(SAVED_DATA){
   if(SAVED_DATA.category && CATEGORIES[SAVED_DATA.category]) state.category = SAVED_DATA.category;
-  if(SAVED_DATA.variant && CATEGORIES.clover.variants.includes(SAVED_DATA.variant)) state.variant = SAVED_DATA.variant;
+  const activeCat = CATEGORIES[state.category];
+  if(SAVED_DATA.variant && activeCat.variants && activeCat.variants.includes(SAVED_DATA.variant)){
+    state.variant = SAVED_DATA.variant;
+  }
   const savedTier = parseInt(SAVED_DATA.targetTier);
   if(savedTier >= 1 && savedTier <= 10) state.targetTier = savedTier;
 }
@@ -596,13 +696,14 @@ function fmtBoth(n){
 }
 
 function getTiers(){
-  if(state.category === 'clover'){
-    const pairs = CATEGORIES.clover.costTotalByVariant[state.variant];
-    return CATEGORIES.clover.tier1Needed.map((needed, i) => ({
+  const cat = CATEGORIES[state.category];
+  if(cat.variants){
+    const pairs = cat.costTotalByVariant[state.variant];
+    return cat.tier1Needed.map((needed, i) => ({
       needed, cost: pairs[i][0], total: pairs[i][1]
     }));
   }
-  return CATEGORIES[state.category].tiers;
+  return cat.tiers;
 }
 
 function getBranch(){
@@ -610,7 +711,36 @@ function getBranch(){
 }
 
 function baseItemName(){
-  return CATEGORIES[state.category].baseItem;
+  const cat = CATEGORIES[state.category];
+  if(cat.baseItemByVariant && cat.baseItemByVariant[state.variant]){
+    return cat.baseItemByVariant[state.variant];
+  }
+  return cat.baseItem;
+}
+
+/* ---------- VARIANTS (any category with a `.variants` list) ---------- */
+const variantRow = document.getElementById('variantRow');
+function buildVariantRow(categoryKey){
+  const cat = CATEGORIES[categoryKey];
+  variantRow.innerHTML = '';
+  if(!cat.variants){
+    variantRow.style.display = 'none';
+    return;
+  }
+  if(!cat.variants.includes(state.variant)) state.variant = cat.variants[0];
+  cat.variants.forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'vbtn' + (v === state.variant ? ' active' : '');
+    b.textContent = v;
+    b.addEventListener('click', () => {
+      state.variant = v;
+      [...variantRow.children].forEach(c => c.classList.remove('active'));
+      b.classList.add('active');
+      render();
+    });
+    variantRow.appendChild(b);
+  });
+  variantRow.style.display = 'flex';
 }
 
 /* ---------- TABS ---------- */
@@ -623,26 +753,15 @@ Object.keys(CATEGORIES).forEach(key => {
     state.category = key;
     [...craftTabs.children].forEach(c => c.classList.remove('active'));
     b.classList.add('active');
-    document.getElementById('variantRow').style.display = key === 'clover' ? 'flex' : 'none';
+    buildVariantRow(key);
     render();
   });
   craftTabs.appendChild(b);
 });
 
-/* ---------- VARIANTS (Clovers only) ---------- */
-const variantRow = document.getElementById('variantRow');
-CATEGORIES.clover.variants.forEach(v => {
-  const b = document.createElement('button');
-  b.className = 'vbtn' + (v === state.variant ? ' active' : '');
-  b.textContent = v;
-  b.addEventListener('click', () => {
-    state.variant = v;
-    [...variantRow.children].forEach(c => c.classList.remove('active'));
-    b.classList.add('active');
-    render();
-  });
-  variantRow.appendChild(b);
-});
+// Build the variant row for whichever category is active on load
+// (respects a restored saved category, e.g. Artifacts or Clovers).
+buildVariantRow(state.category);
 
 /* ---------- TIER LEGEND ---------- */
 const tierLegend = document.getElementById('tierLegend');
@@ -843,7 +962,7 @@ document.getElementById('copyBtn').addEventListener('click', () => {
   const ready = !itemsShort && !gemsShort;
   const status = getStatus(itemsShort, gemsShort);
   const whatNext = getWhatNext(rows, branch, ready);
-  const catLabel = CATEGORIES[state.category].label + (state.category === 'clover' ? ` (${state.variant})` : '');
+  const catLabel = CATEGORIES[state.category].label + (CATEGORIES[state.category].variants ? ` (${state.variant})` : '');
 
   let text = `WEAPON FACTORY — Crafting Plan\n`;
   text += `Category: ${catLabel}\n`;
@@ -926,7 +1045,7 @@ function render(){
   const idx = state.targetTier - 1;
 
   document.getElementById('baseItemLine').innerHTML =
-    `<span class="swatch"></span> Base item: ${baseItemName()}${state.category==='clover' ? ' · ' + state.variant + ' quality' : ''}`;
+    `<span class="swatch"></span> Base item: ${baseItemName()}${(CATEGORIES[state.category].variants && !CATEGORIES[state.category].baseItemByVariant) ? ' · ' + state.variant : ''}`;
 
   const qty = Math.max(1, parseAbbrev(qtyInput.value) || 1);
   const haveByTier = getHaveByTier();
@@ -997,7 +1116,7 @@ function render(){
     : `<li class="plan-empty">✓ Nothing to craft — you already own enough at Tier ${state.targetTier} for this request. You are ready to craft.</li>`;
 
   const table = document.getElementById('tierTable');
-  const variantHeader = state.category === 'clover' ? `${state.variant} ` : '';
+  const variantHeader = CATEGORIES[state.category].variants ? `${state.variant} ` : '';
   table.innerHTML = `
     <tr>
       <th>Tier</th>
