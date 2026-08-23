@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEAPON FACTORY — Fan Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --panel:#ffffff;
+    --panel-2:#f1eee2;
+    --ink:#17181c;
+    --ink-dim:#5b5d63;
+    --line:#e4e0d0;
+    --yellow:#ffc700;
+    --orange:#ff431a;
+    --blue:#0b6bff;
+    --green:#12c48b;
+    --pink:#ff2f9e;
+    --purple:#7c3aed;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Barlow', sans-serif; overflow-x:hidden; position:relative; }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(circle at 8% 12%, rgba(255,199,0,0.20), transparent 32%),
+      radial-gradient(circle at 92% 8%, rgba(11,107,255,0.16), transparent 34%),
+      radial-gradient(circle at 85% 55%, rgba(255,47,158,0.14), transparent 34%),
+      radial-gradient(circle at 10% 65%, rgba(18,196,139,0.14), transparent 32%),
+      radial-gradient(circle at 50% 95%, rgba(255,67,26,0.14), transparent 36%);
+  }
+  ::selection{background:var(--yellow); color:var(--ink);}
+  a{color:inherit;}
+
+  .hazard{ height:14px; background:repeating-linear-gradient(135deg, var(--yellow) 0 22px, var(--ink) 22px 44px); }
+
+  header{ position:sticky; top:0; z-index:50; background:rgba(250,248,242,0.9); backdrop-filter:blur(8px); border-bottom:2px solid var(--ink); }
+  .nav-wrap{ max-width:1220px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .brand{ font-family:'Anton', sans-serif; font-size:1.25rem; letter-spacing:1px; display:flex; align-items:center; gap:10px; }
+  .brand .dot{width:12px; height:12px; background:var(--orange); border-radius:2px;}
+  nav ul{list-style:none; display:flex; gap:24px;}
+  nav a{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1.2px; text-decoration:none; color:var(--ink-dim); transition:color .15s; }
+  nav a:hover, nav a:focus-visible{color:var(--orange);}
+  .nav-cta{ font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; background:var(--ink); color:var(--yellow); padding:10px 18px; text-decoration:none; border:2px solid var(--ink); transition:background .15s, color .15s; }
+  .nav-cta:hover{background:var(--orange); color:var(--ink); border-color:var(--orange);}
+  @media (max-width:820px){ nav ul{display:none;} }
+
+  .hero{ position:relative; padding:100px 24px 70px; max-width:1220px; margin:0 auto; text-align:center; }
+  .hero::before{ content:""; position:absolute; inset:0; background:
+      radial-gradient(circle at 20% 10%, rgba(255,199,0,0.32), transparent 45%),
+      radial-gradient(circle at 82% 15%, rgba(11,107,255,0.24), transparent 45%),
+      radial-gradient(circle at 55% 85%, rgba(255,47,158,0.16), transparent 45%);
+    pointer-events:none; z-index:0; }
+  .hero > *{position:relative; z-index:1;}
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--ink); background:var(--yellow); padding:6px 14px; margin-bottom:28px; border:2px solid var(--ink); }
+  h1.title{ font-family:'Anton', sans-serif; font-size:clamp(2.8rem, 9vw, 6.6rem); line-height:0.92; letter-spacing:1px; text-transform:uppercase; color:var(--ink); }
+  h1.title span{color:var(--orange);}
+  .tagline{ font-family:'Barlow Condensed', sans-serif; font-weight:600; font-size:clamp(1.05rem, 2.3vw, 1.5rem); letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); margin:22px auto 40px; max-width:640px; }
+  .tagline b{color:var(--blue); font-style:normal;}
+  .hero-ctas{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .btn{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; font-size:1rem; letter-spacing:1.2px; text-decoration:none; padding:16px 30px; display:inline-block; border:2px solid var(--ink); transition:transform .12s ease, box-shadow .12s ease; cursor:pointer; }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--orange); color:#fff; box-shadow:4px 4px 0 var(--ink);}
+  .btn-primary:hover{box-shadow:6px 6px 0 var(--ink);}
+  .btn-ghost{background:var(--panel); color:var(--ink); box-shadow:4px 4px 0 var(--ink);}
+  .btn-ghost:hover{box-shadow:6px 6px 0 var(--ink);}
+
+  .stats{ max-width:1220px; margin:0 auto; padding:0 24px 80px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .stat{ background:var(--panel); border:2px solid var(--ink); padding:28px 20px; text-align:center; box-shadow:5px 5px 0 var(--ink); }
+  .stat:nth-child(1){border-top:6px solid var(--yellow);}
+  .stat:nth-child(2){border-top:6px solid var(--blue);}
+  .stat:nth-child(3){border-top:6px solid var(--green);}
+  .stat .num{font-family:'Anton', sans-serif; font-size:2.1rem;}
+  .stat .label{ font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:1px; color:var(--ink-dim); text-transform:uppercase; margin-top:6px; display:block; }
+  @media (max-width:700px){ .stats{grid-template-columns:1fr;} }
+
+  .conveyor{ position:relative; height:44px; overflow:hidden; border-top:3px solid var(--ink); border-bottom:3px solid var(--ink); }
+  .conveyor-track{ position:absolute; top:0; left:0; height:100%; width:200%; background:repeating-linear-gradient(-35deg, var(--yellow) 0 18px, var(--ink) 18px 44px); animation:roll 7s linear infinite; }
+  @keyframes roll{ from{transform:translateX(0);} to{transform:translateX(-25%);} }
+  @media (prefers-reduced-motion: reduce){ .conveyor-track{animation:none;} }
+
+  section{max-width:1220px; margin:0 auto; padding:90px 24px;}
+  .kicker{ font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
+  h2{ font-family:'Anton', sans-serif; text-transform:uppercase; font-size:clamp(1.9rem, 4.2vw, 3rem); letter-spacing:0.5px; margin-bottom:16px; }
+  .lede{color:var(--ink-dim); font-size:1.05rem; max-width:680px; line-height:1.6;}
+
+  .about-list{list-style:none; margin-top:26px; display:grid; gap:14px;}
+  .about-list li{display:flex; gap:14px; font-size:1rem;}
+  .about-list .tag{font-family:'JetBrains Mono', monospace; color:var(--orange); flex:0 0 auto; font-weight:700;}
+
+  .loop{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:50px;}
+  .loop-step{background:var(--panel); border:2px solid var(--ink); padding:26px 20px; box-shadow:5px 5px 0 var(--ink);}
+  .loop-step .n{font-family:'Anton', sans-serif; font-size:2.3rem; color:var(--blue);}
+  .loop-step h3{font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; font-weight:700; font-size:1.2rem; margin:8px 0 6px;}
+  .loop-step p{color:var(--ink-dim); font-size:0.9rem; line-height:1.5;}
+  @media (max-width:900px){ .loop{grid-template-columns:1fr;} }
+
+  /* CRAFTING */
+  .craft-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-top:40px;}
+  .craft-tab{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.95rem; padding:12px 22px; border:2px solid var(--ink); background:var(--panel); cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:background .12s,color .12s; }
+  .craft-tab.active{background:linear-gradient(135deg, var(--orange), var(--pink)); color:#fff; border-color:var(--ink);}
+
+  .variant-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:20px;}
+  .vbtn{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; padding:8px 14px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; }
+  .vbtn.active{background:linear-gradient(135deg, var(--blue), var(--purple)); color:#fff; border-color:var(--ink);}
+
+  .tier-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
+  .tier-chip{ font-family:'JetBrains Mono', monospace; font-size:0.68rem; font-weight:700; letter-spacing:0.5px; padding:5px 10px; border:2px solid var(--ink); text-transform:uppercase; }
+
+  .craft-panel{margin-top:34px; background:var(--panel); border:2px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:28px;}
+  .craft-panel h3{font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; font-weight:700; font-size:1.15rem; margin-bottom:18px;}
+  .base-item{ display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--ink-dim); margin-bottom:22px; text-transform:uppercase; letter-spacing:0.5px;}
+  .base-item .swatch{width:16px; height:16px; border:2px solid var(--ink); background:var(--panel-2);}
+
+  table.tier-table{width:100%; border-collapse:collapse; font-size:0.9rem; min-width:520px;}
+  table.tier-table th{ text-align:left; font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); padding:8px 10px; border-bottom:2px solid var(--ink); white-space:nowrap; }
+  table.tier-table td{padding:9px 10px; border-bottom:1px solid var(--line); white-space:nowrap;}
+  table.tier-table tr.target-row td{background:#fff7d6; font-weight:700;}
+  table.tier-table tr.missing-row td{background:#fff1ec;}
+  .tier-badge{ display:inline-block; padding:4px 10px; font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; font-size:0.8rem; border:2px solid var(--ink); }
+  .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; scrollbar-width:thin; scrollbar-color:var(--ink) var(--panel-2); border:1px solid var(--line); }
+  .table-scroll::-webkit-scrollbar{height:8px;}
+  .table-scroll::-webkit-scrollbar-thumb{background:var(--ink);}
+  .table-scroll::-webkit-scrollbar-track{background:var(--panel-2);}
+  .scroll-hint{display:none; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:6px; text-transform:uppercase; letter-spacing:0.5px;}
+  @media (max-width:700px){ .scroll-hint{display:block;} }
+
+  .plan-steps{list-style:none; counter-reset:step; display:grid; gap:10px;}
+  .plan-steps li{
+    counter-increment:step; position:relative; padding:14px 16px 14px 52px;
+    background:var(--bg); border:2px solid var(--ink); font-size:0.92rem; line-height:1.55;
+  }
+  .plan-steps li::before{
+    content:counter(step); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--ink); color:var(--yellow);
+    font-family:'Anton', sans-serif; font-size:0.85rem; display:flex; align-items:center; justify-content:center;
+  }
+  .plan-steps li.owned-step{border-color:var(--green);}
+  .plan-steps li.owned-step::before{background:var(--green); color:#fff;}
+  .plan-steps li.craft-step b{color:var(--orange);}
+  .plan-steps li .plan-gems{font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--ink-dim); display:block; margin-top:4px;}
+  .plan-empty{color:var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:0.85rem;}
+
+  .calc-form{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px; align-items:end;}
+  .calc-field label{ display:block; font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); margin-bottom:8px; }
+  .calc-field select, .calc-field input{ width:100%; padding:11px 12px; border:2px solid var(--ink); background:var(--bg); color:var(--ink); font-family:'Barlow', sans-serif; font-size:0.95rem; }
+  @media (max-width:760px){ .calc-form{grid-template-columns:1fr;} }
+
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+  .btn-util{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.82rem; padding:10px 18px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; transition:background .12s, color .12s; }
+  .btn-util:hover{background:var(--ink); color:var(--yellow);}
+  .btn-util.primary{background:var(--blue); color:#fff; border-color:var(--blue);}
+  .btn-util.primary:hover{background:#0855cc;}
+
+  .tier-have-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(104px,1fr)); gap:10px; margin-top:6px;}
+  .tier-have-item{border:2px solid var(--ink); padding:10px; text-align:center; background:var(--bg);}
+  .tier-have-item .tlabel{display:inline-block; margin-bottom:8px; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.5px;}
+  .tier-have-item input{width:100%; padding:8px; border:2px solid var(--ink); font-family:'JetBrains Mono',monospace; font-size:0.88rem; text-align:center; background:#fff; color:var(--ink);}
+  .tier-have-item.above-target{opacity:0.4;}
+  .above-note{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:10px;}
+
+  .result-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:14px; margin-top:26px;}
+  .result-card{border:2px solid var(--ink); padding:16px; text-align:center; background:var(--bg);}
+  .result-card .rlabel{font-family:'JetBrains Mono', monospace; font-size:0.65rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim);}
+  .result-card .rval{font-family:'Anton', sans-serif; font-size:1.3rem; margin-top:6px; word-break:break-word;}
+  .result-card .rexact{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:4px;}
+  .result-card.ready{border-color:var(--green); background:#eafff6;}
+  .result-card.short{border-color:var(--orange); background:#fff1ec;}
+
+  .next-tier-banner{
+    margin-top:32px; background:#eaf2ff; border:2px solid var(--blue);
+    padding:16px 18px; font-family:'Barlow Condensed', sans-serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.5px; font-size:1.02rem; color:var(--ink);
+  }
+  .next-tier-banner span{color:var(--blue);}
+
+  .edit-note{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-dim); background:var(--panel-2); border:1px dashed var(--ink-dim); padding:12px 16px; margin-top:36px; line-height:1.7; }
+
+  .codes-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:40px;}
+  .code-card{ background:var(--panel); border:2px dashed var(--ink); padding:22px 20px; position:relative; cursor:pointer; transition:transform .12s; }
+  .code-card:hover{transform:translateY(-3px);}
+  .code-card .status{ position:absolute; top:-11px; right:16px; background:var(--green); color:#fff; font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.62rem; letter-spacing:1px; padding:3px 9px; text-transform:uppercase; }
+  .code-card .code{font-family:'JetBrains Mono', monospace; font-weight:700; font-size:1.3rem; color:var(--orange);}
+  .code-card .desc{color:var(--ink-dim); font-size:0.86rem; margin-top:10px; line-height:1.5;}
+  .code-card .hint{font-family:'JetBrains Mono', monospace; font-size:0.66rem; color:var(--ink-dim); margin-top:14px; text-transform:uppercase; letter-spacing:1px; opacity:0.75;}
+  @media (max-width:820px){ .codes-grid{grid-template-columns:1fr;} }
+
+  .tips-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:40px;}
+  .tip{background:var(--panel); border:2px solid var(--ink); border-left:6px solid var(--yellow); padding:20px 22px; display:flex; gap:16px; box-shadow:4px 4px 0 var(--ink);}
+  .tip .icon{flex:0 0 auto; width:32px; height:32px; background:var(--ink); color:var(--yellow); display:flex; align-items:center; justify-content:center; font-family:'Anton', sans-serif;}
+  .tip h3{font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; font-weight:700; font-size:1.05rem; margin-bottom:6px;}
+  .tip p{color:var(--ink-dim); font-size:0.9rem; line-height:1.55;}
+  @media (max-width:760px){ .tips-grid{grid-template-columns:1fr;} }
+
+  .cta-strip{text-align:center; padding:90px 24px; background:linear-gradient(135deg, var(--purple) 0%, var(--blue) 45%, var(--ink) 100%); color:var(--bg);}
+  .cta-strip h2{color:#fff;}
+  .cta-strip p{color:#e4e2ff; max-width:520px; margin:0 auto 32px;}
+  .cta-strip .btn-primary{background:var(--orange); box-shadow:4px 4px 0 var(--yellow);}
+  .cta-strip .btn-primary:hover{box-shadow:6px 6px 0 var(--yellow);}
+
+  footer{padding:36px 24px 26px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--ink-dim); line-height:1.8;}
+  footer .fbrand{color:var(--ink); font-weight:700; letter-spacing:1px;}
+
+  .toast{ position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--yellow); font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:12px 22px; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:100; }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  :focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<div class="hazard"></div>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand"><span class="dot"></span>WEAPON FACTORY</div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#crafting">Crafting</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="https://www.roblox.com/games/108452487199736" target="_blank" rel="noopener">Play Now</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">⚙ Fan Hub · Unofficial</div>
+  <h1 class="title">WEAPON<br><span>FACTORY</span></h1>
+  <p class="tagline">Craft <b>quintillions</b> of weapons. Sell them for cash. Fight monsters to prove they hit hard.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="https://www.roblox.com/games/108452487199736" target="_blank" rel="noopener">▶ Play on Roblox</a>
+    <a class="btn btn-ghost" href="#crafting">Crafting Calculator</a>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><span class="num">3.4Q+</span><span class="label">Possible Weapons</span></div>
+  <div class="stat"><span class="num">2D</span><span class="label">Infinite Incremental</span></div>
+  <div class="stat"><span class="num">24/7</span><span class="label">Runs While Offline</span></div>
+</div>
+
+<div class="conveyor"><div class="conveyor-track"></div></div>
+
+<section id="about">
+  <div class="kicker">// 01 — The Pitch</div>
+  <h2>Build the empire.<br>One weapon at a time.</h2>
+  <p class="lede" style="margin-top:24px;">Weapon Factory drops you on the factory floor with nothing but a spawner and an idea. Every weapon that comes off the line is unique — stack traits, rarities, and stats until you're producing gear that breaks the scale. Sell what you don't need, keep what hits hardest, and reinvest every gem into a bigger, faster, meaner operation.</p>
+  <ul class="about-list">
+    <li><span class="tag">01</span> Unique weapon combinations reach into the quintillions</li>
+    <li><span class="tag">02</span> Two currencies — <b style="color:var(--orange)">Gems</b> for packs, <b style="color:var(--green)">Cash</b> for upgrades</li>
+    <li><span class="tag">03</span> Your factory keeps producing even when you're logged off</li>
+    <li><span class="tag">04</span> Made by RedBolts</li>
+  </ul>
+</section>
+
+<div class="conveyor"><div class="conveyor-track"></div></div>
+
+<section id="crafting">
+  <div class="kicker">// 03 — Workshop</div>
+  <h2>Crafting calculator</h2>
+  <p class="lede">Tier-up crafting for every bag, stone, and item chain in the game. Pick a category, set a target tier and quantity, enter what you already own, and it works out exactly what's still missing — using your owned items first and charging gems only for the crafts you still need.</p>
+
+  <div class="craft-tabs" id="craftTabs"></div>
+  <div class="variant-row" id="variantRow" style="display:none;"></div>
+
+  <div class="tier-legend" id="tierLegend"></div>
+
+  <div class="craft-panel">
+    <div class="base-item" id="baseItemLine"></div>
+
+    <h3>Target tier, quantity &amp; gems</h3>
+    <div class="calc-form">
+      <div class="calc-field">
+        <label for="targetTier">Target tier</label>
+        <select id="targetTier"></select>
+      </div>
+      <div class="calc-field">
+        <label for="qtyToCraft">How many to craft</label>
+        <input type="text" inputmode="text" id="qtyToCraft" value="1" placeholder="e.g. 1, 5k, 2.5m">
+      </div>
+      <div class="calc-field">
+        <label for="haveGems">Gems you have</label>
+        <input type="text" inputmode="text" id="haveGems" value="0" placeholder="e.g. 500, 12m, 3.4b">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-util" id="resetBtn">Reset</button>
+      <button class="btn-util primary" id="copyBtn">Copy results</button>
+    </div>
+
+    <h3 style="margin-top:30px;">Items you currently own, by tier</h3>
+    <p class="lede" style="margin-bottom:16px;">Owned items are used up the tier chain before anything new is charged. Tiers above your target aren't used unless the game lets you dismantle down a tier.</p>
+    <div class="tier-have-grid" id="tierHaveGrid"></div>
+
+    <div class="result-grid">
+      <div class="result-card" id="cardT1"><div class="rlabel">Tier 1 items still needed</div><div class="rval" id="valT1"></div></div>
+      <div class="result-card" id="cardGemsNeeded"><div class="rlabel">Total gems needed</div><div class="rval" id="valGemsNeeded"></div><div class="rexact" id="exGemsNeeded"></div></div>
+      <div class="result-card" id="cardGemsHave"><div class="rlabel">Gems you have</div><div class="rval" id="valGemsHave"></div><div class="rexact" id="exGemsHave"></div></div>
+      <div class="result-card" id="cardGemsMissing"><div class="rlabel">Gems still missing</div><div class="rval" id="valGemsMissing"></div><div class="rexact" id="exGemsMissing"></div></div>
+      <div class="result-card" id="cardStatus"><div class="rlabel">Status</div><div class="rval" id="valStatus"></div></div>
+    </div>
+
+    <h3 style="margin-top:34px;">Crafting plan</h3>
+    <p class="lede" style="margin-bottom:12px;">Step by step, lowest tier to highest — exactly what to convert into what, using what you already own first.</p>
+    <ol class="plan-steps" id="planSteps"></ol>
+
+    <h3 style="margin-top:34px;">Full tier cost reference</h3>
+    <div class="table-scroll">
+      <table class="tier-table" id="tierTable"></table>
+    </div>
+    <div class="scroll-hint">↔ Swipe to see more columns</div>
+  </div>
+
+  <p class="edit-note">This calculator currently covers Artifacts, Pots, Clovers, Stones, Clover Bags, Lucky Boost Bags, Candy Bags, and Food Crates. Send over recipe data for any other craftable category in the game and it can be added here the same way.</p>
+</section>
+
+<div class="conveyor"><div class="conveyor-track"></div></div>
+
+<div class="cta-strip">
+  <h2>Ready to hit the line?</h2>
+  <p>Jump into Weapon Factory and start your empire — it keeps running even after you log off.</p>
+  <a class="btn btn-primary" href="https://www.roblox.com/games/108452487199736" target="_blank" rel="noopener">▶ Play on Roblox</a>
+</div>
+
+<div class="hazard"></div>
+
+<footer>
+  <div class="fbrand">WEAPON FACTORY — FAN HUB</div>
+  <p>Unofficial fan site. Not affiliated with Roblox Corporation or RedBolts.<br>Weapon Factory and all game assets belong to their respective creators.</p>
+</footer>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* ============================================================
+   DATA — straight from the in-game crafting tables.
+   Add Potions / the other categories the same way.
+============================================================ */
+const TIER_COLORS = ["#9CA3AF","#22C55E","#22D3EE","#A855F7","#FACC15","#EC4899","#EF4444","#38BDF8","#166534","#0A0A0A"];
+const TIER_TEXT   = ["#111111","#ffffff","#111111","#ffffff","#111111","#ffffff","#ffffff","#111111","#ffffff","#ffffff"];
+const TIER_NAMES  = ["Grey","Green","Cyan","Purple","Yellow","Pink","Red","Sky Blue","Dark Green","Black"];
+
+const CATEGORIES = {
+  artifact: {
+    label: "Artifacts", baseItem: "Money, XP, Gems", branch: 5,
+    tiers: [
+      {needed:1,        cost:100000,      total:100000},
+      {needed:5,        cost:250000,      total:750000},
+      {needed:25,       cost:500000,      total:3250000},
+      {needed:125,      cost:1000000,     total:13750000},
+      {needed:625,      cost:3000000,     total:69250000},
+      {needed:3125,     cost:10000000,    total:376750000},
+      {needed:15625,    cost:50000000,    total:2133750000},
+      {needed:78125,    cost:250000000,   total:12418750000},
+      {needed:390625,   cost:1000000000,  total:71093750000},
+      {needed:1953125,  cost:5000000000,  total:412968750000}
+    ]
+  },
+  pot: {
+    label: "Pots", baseItem: "All Pots", branch: 5,
+    tiers: [
+      {needed:1,        cost:1000,     total:1000},
+      {needed:5,        cost:5000,     total:10000},
+      {needed:25,       cost:20000,    total:70000},
+      {needed:125,      cost:70000,    total:420000},
+      {needed:625,      cost:150000,   total:2250000},
+      {needed:3125,     cost:400000,   total:11650000},
+      {needed:15625,    cost:1000000,  total:59250000},
+      {needed:78125,    cost:3000000,  total:299250000},
+      {needed:390625,   cost:10000000, total:1506250000},
+      {needed:1953125,  cost:25000000, total:7556250000}
+    ]
+  },
+  clover: {
+    label: "Clovers", baseItem: "Clover", branch: 3,
+    variants: ["Normal","Golden","Shiny","Rainbow","Void"],
+    tier1Needed: [1,3,9,27,81,243,729,2187,6561,19683],
+    costTotalByVariant: {
+      Normal:  [[1000,1000],[3000,6000],[10000,28000],[20000,104000],[45000,357000],[70000,1141000],[100000,3523000],[150000,10719000],[270000,32427000],[500000,97781000]],
+      Golden:  [[1500,1500],[4500,9000],[15000,42000],[30000,156000],[67500,535500],[105000,1711500],[150000,5584500],[225000,17203500],[405000,52015500],[750000,156796500]],
+      Shiny:   [[2250,2250],[6750,13500],[22500,63000],[45000,234000],[101250,803250],[157500,2567250],[225000,7926750],[337500,24117750],[607500,73426500],[1120000,221399500]],
+      Rainbow: [[3370,3370],[10120,20230],[33750,94440],[67500,350820],[151870,1204300],[236240,3848400],[337500,11881700],[506250,36151300],[911250,110365200],[1680000,332775500]],
+      Void:    [[5060,5060],[15180,30360],[50620,141700],[101250,526350],[227500,1806550],[394370,5814020],[506250,17948310],[759370,55364300],[1360000,167452900],[2530000,505056700]]
+    }
+  },
+  stone: {
+    label: "Stones", baseItem: "Mold, Quality, Rarity, Class Stones", branch: 7,
+    tiers: [
+      {needed:1,         cost:1000,     total:1000},
+      {needed:7,         cost:5000,     total:12000},
+      {needed:49,        cost:15000,    total:99000},
+      {needed:343,       cost:30000,    total:723000},
+      {needed:2401,      cost:100000,   total:5161000},
+      {needed:16807,     cost:500000,   total:36627000},
+      {needed:117649,    cost:1000000,  total:257389000},
+      {needed:823543,    cost:2000000,  total:1803723000},
+      {needed:5764801,   cost:5000000,  total:12631061000},
+      {needed:40353607,  cost:10000000, total:88427427000}
+    ]
+  },
+  cloverbag: {
+    label: "Clover Bags", baseItem: "Clover Bags", branch: 3,
+    tiers: [
+      {needed:1,       cost:1000,   total:1000},
+      {needed:3,       cost:500,    total:3500},
+      {needed:9,       cost:1000,   total:11500},
+      {needed:27,      cost:2000,   total:36500},
+      {needed:81,      cost:3000,   total:112500},
+      {needed:243,     cost:5000,   total:342500},
+      {needed:729,     cost:10000,  total:1037500},
+      {needed:2187,    cost:25000,  total:3137500},
+      {needed:6561,    cost:50000,  total:9462500},
+      {needed:19683,   cost:100000, total:28487500}
+    ]
+  },
+  luckybag: {
+    label: "Lucky Boost Bags", baseItem: "Boost Bags", branch: 3,
+    tiers: [
+      {needed:1,       cost:1000,   total:1000},
+      {needed:3,       cost:500,    total:3500},
+      {needed:9,       cost:1000,   total:11500},
+      {needed:27,      cost:2000,   total:36500},
+      {needed:81,      cost:3000,   total:112500},
+      {needed:243,     cost:5000,   total:342500},
+      {needed:729,     cost:10000,  total:1037500},
+      {needed:2187,    cost:25000,  total:3137500},
+      {needed:6561,    cost:50000,  total:9462500},
+      {needed:19683,   cost:100000, total:28487500}
+    ]
+  },
+  candybag: {
+    label: "Candy Bags", baseItem: "Candy Bags", branch: 3,
+    tiers: [
+      {needed:1,       cost:1000,   total:1000},
+      {needed:3,       cost:500,    total:3500},
+      {needed:9,       cost:1000,   total:11500},
+      {needed:27,      cost:2000,   total:36500},
+      {needed:81,      cost:3000,   total:112500},
+      {needed:243,     cost:5000,   total:342500},
+      {needed:729,     cost:10000,  total:1037500},
+      {needed:2187,    cost:25000,  total:3137500},
+      {needed:6561,    cost:50000,  total:9462500},
+      {needed:19683,   cost:100000, total:28487500}
+    ]
+  },
+  foodcrate: {
+    label: "Food Crates", baseItem: "Food Crates", branch: 3,
+    tiers: [
+      {needed:1,       cost:1000,   total:1000},
+      {needed:3,       cost:500,    total:3500},
+      {needed:9,       cost:1000,   total:11500},
+      {needed:27,      cost:2000,   total:36500},
+      {needed:81,      cost:3000,   total:112500},
+      {needed:243,     cost:5000,   total:342500},
+      {needed:729,     cost:10000,  total:1037500},
+      {needed:2187,    cost:25000,  total:3137500},
+      {needed:6561,    cost:50000,  total:9462500},
+      {needed:19683,   cost:100000, total:28487500}
+    ]
+  }
+};
+/* ============================================================
+   END DATA
+============================================================ */
+
+const state = { category:"artifact", variant:"Normal", targetTier:10 };
+
+// Suffix scale used for both parsing input ("2.5m") and display formatting.
+const SUFFIX_SCALE = [
+  { suffix:"Sp", mult:1e24 }, { suffix:"Sx", mult:1e21 },
+  { suffix:"Qn", mult:1e18 }, { suffix:"Qd", mult:1e15 },
+  { suffix:"T",  mult:1e12 }, { suffix:"B",  mult:1e9  },
+  { suffix:"M",  mult:1e6  }, { suffix:"K",  mult:1e3  }
+];
+const SUFFIX_ALIASES = {
+  k:1e3, m:1e6, b:1e9, t:1e12,
+  qd:1e15, qn:1e18, sx:1e21, sp:1e24
+};
+
+// Parses plain numbers and shorthand like "5k", "2.5m", "12b", "3qd", "1.2qn".
+// Falls back to 0 for empty/invalid input, always non-negative.
+function parseAbbrev(str){
+  if(str === null || str === undefined) return 0;
+  const cleaned = String(str).trim().toLowerCase().replace(/,/g, '');
+  if(cleaned === '') return 0;
+  const match = cleaned.match(/^(-?\d+\.?\d*)\s*([a-z]*)$/);
+  if(!match) return 0;
+  const num = parseFloat(match[1]);
+  if(isNaN(num)) return 0;
+  const suffix = match[2];
+  const mult = suffix ? (SUFFIX_ALIASES[suffix] || 1) : 1;
+  return Math.max(0, Math.round(num * mult));
+}
+
+function fmt(n){
+  for(const { suffix, mult } of SUFFIX_SCALE){
+    if(n >= mult) return (n/mult).toFixed(2).replace(/\.00$/,'') + suffix;
+  }
+  if(n >= 1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'') + "K";
+  return n.toString();
+}
+// Exact number + shortened number together, e.g. "1,750,000,000 (1.75B)"
+function fmtBoth(n){
+  const exact = Math.round(n).toLocaleString();
+  return n >= 1000 ? `${exact} (${fmt(n)})` : exact;
+}
+
+function getTiers(){
+  if(state.category === 'clover'){
+    const pairs = CATEGORIES.clover.costTotalByVariant[state.variant];
+    return CATEGORIES.clover.tier1Needed.map((needed, i) => ({
+      needed, cost: pairs[i][0], total: pairs[i][1]
+    }));
+  }
+  return CATEGORIES[state.category].tiers;
+}
+
+function getBranch(){
+  return CATEGORIES[state.category].branch;
+}
+
+function baseItemName(){
+  return CATEGORIES[state.category].baseItem;
+}
+
+/* ---------- TABS ---------- */
+const craftTabs = document.getElementById('craftTabs');
+Object.keys(CATEGORIES).forEach(key => {
+  const b = document.createElement('button');
+  b.className = 'craft-tab' + (key === state.category ? ' active' : '');
+  b.textContent = CATEGORIES[key].label;
+  b.addEventListener('click', () => {
+    state.category = key;
+    [...craftTabs.children].forEach(c => c.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('variantRow').style.display = key === 'clover' ? 'flex' : 'none';
+    render();
+  });
+  craftTabs.appendChild(b);
+});
+
+/* ---------- VARIANTS (Clovers only) ---------- */
+const variantRow = document.getElementById('variantRow');
+CATEGORIES.clover.variants.forEach(v => {
+  const b = document.createElement('button');
+  b.className = 'vbtn' + (v === state.variant ? ' active' : '');
+  b.textContent = v;
+  b.addEventListener('click', () => {
+    state.variant = v;
+    [...variantRow.children].forEach(c => c.classList.remove('active'));
+    b.classList.add('active');
+    render();
+  });
+  variantRow.appendChild(b);
+});
+
+/* ---------- TIER LEGEND ---------- */
+const tierLegend = document.getElementById('tierLegend');
+TIER_NAMES.forEach((name, i) => {
+  const chip = document.createElement('span');
+  chip.className = 'tier-chip';
+  chip.style.background = TIER_COLORS[i];
+  chip.style.color = TIER_TEXT[i];
+  chip.textContent = `T${i+1} · ${name}`;
+  tierLegend.appendChild(chip);
+});
+
+/* ---------- TARGET TIER SELECT ---------- */
+const targetTierSelect = document.getElementById('targetTier');
+for(let i=1;i<=10;i++){
+  const o = document.createElement('option');
+  o.value = i; o.textContent = `Tier ${i} — ${TIER_NAMES[i-1]}`;
+  if(i === state.targetTier) o.selected = true;
+  targetTierSelect.appendChild(o);
+}
+targetTierSelect.addEventListener('change', e => { state.targetTier = parseInt(e.target.value); render(); });
+
+function zeroOnBlur(input, floorVal){
+  input.addEventListener('blur', () => {
+    if(input.value.trim() === ''){ input.value = String(floorVal); render(); }
+  });
+}
+
+const qtyInput = document.getElementById('qtyToCraft');
+qtyInput.addEventListener('input', render);
+zeroOnBlur(qtyInput, 1);
+
+const haveGemsInput = document.getElementById('haveGems');
+haveGemsInput.addEventListener('input', render);
+zeroOnBlur(haveGemsInput, 0);
+
+/* ---------- PER-TIER "HAVE" INPUTS ---------- */
+const tierHaveGrid = document.getElementById('tierHaveGrid');
+for(let i=1;i<=10;i++){
+  const wrap = document.createElement('div');
+  wrap.className = 'tier-have-item';
+  wrap.id = `tierHaveWrap${i}`;
+  wrap.innerHTML = `
+    <span class="tlabel" style="background:${TIER_COLORS[i-1]}; color:${TIER_TEXT[i-1]}">T${i}</span>
+    <input type="text" inputmode="text" id="tierHave${i}" value="0" placeholder="0">
+  `;
+  tierHaveGrid.appendChild(wrap);
+  wrap.querySelector('input').addEventListener('input', render);
+  zeroOnBlur(wrap.querySelector('input'), 0);
+}
+function getHaveByTier(){
+  const arr = [];
+  for(let i=1;i<=10;i++){
+    arr.push(parseAbbrev(document.getElementById(`tierHave${i}`).value));
+  }
+  return arr;
+}
+
+/* ---------- CORE ALGORITHM ----------
+   Walks down from the target tier to Tier 1. At each tier, owned items
+   are used first; only the shortfall gets queued as crafts, and only
+   that shortfall's gem cost is charged. The shortfall then becomes the
+   requirement for the tier below (multiplied by the branch factor).
+   Owned items above the target tier are never referenced — no dismantling.
+------------------------------------------------- */
+function computeBreakdown(tiers, branch, targetTierNum, qty, haveByTier){
+  const required = new Array(11).fill(0);
+  required[targetTierNum] = qty;
+  const rows = [];
+  let gemsNeeded = 0;
+  const remaining = haveByTier.slice();
+
+  for(let k = targetTierNum; k >= 1; k--){
+    const ownedAtK = remaining[k-1] || 0;
+    const req = required[k];
+    const used = Math.min(req, ownedAtK);
+    remaining[k-1] = ownedAtK - used;
+    const stillCraft = req - used;
+    const costPer = tiers[k-1].cost;
+    const gemsForTier = stillCraft * costPer;
+    gemsNeeded += gemsForTier;
+    rows.push({ tier:k, required:req, owned:used, stillCraft, costPer, gemsForTier });
+    if(k > 1) required[k-1] += stillCraft * branch;
+  }
+
+  // Attach leftover (unused owned stock at that tier once the plan is fully resolved)
+  rows.forEach(r => { r.leftover = remaining[r.tier-1] || 0; });
+  // Ascending order (Tier 1 up to target) reads naturally as a step-by-step plan
+  rows.sort((a,b) => a.tier - b.tier);
+
+  const tier1Row = rows.find(r => r.tier === 1);
+  return { rows, gemsNeeded, tier1StillNeeded: tier1Row ? tier1Row.stillCraft : 0, remaining };
+}
+
+/* ---------- PER-TIER "HAVE" INPUTS (build once, filter visibility per target) ---------- */
+function updateHaveGridVisibility(){
+  for(let i=1;i<=10;i++){
+    const item = document.getElementById(`tierHaveWrap${i}`);
+    if(item) item.classList.toggle('above-target', i > state.targetTier);
+  }
+}
+
+/* ---------- RESET & COPY ---------- */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  qtyInput.value = 1;
+  haveGemsInput.value = 0;
+  for(let i=1;i<=10;i++){
+    const inp = document.getElementById(`tierHave${i}`);
+    if(inp) inp.value = 0;
+  }
+  render();
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const tiers = getTiers();
+  const branch = getBranch();
+  const qty = Math.max(1, parseAbbrev(qtyInput.value) || 1);
+  const haveByTier = getHaveByTier();
+  const haveGems = parseAbbrev(haveGemsInput.value);
+  const mainResult = computeBreakdown(tiers, branch, state.targetTier, qty, haveByTier);
+  const { rows, gemsNeeded, tier1StillNeeded } = mainResult;
+  const stillGems = Math.max(0, gemsNeeded - haveGems);
+  const ready = tier1StillNeeded === 0 && stillGems === 0;
+  const catLabel = CATEGORIES[state.category].label + (state.category === 'clover' ? ` (${state.variant})` : '');
+
+  let text = `WEAPON FACTORY — Crafting Plan\n`;
+  text += `Category: ${catLabel}\n`;
+  text += `Target: Tier ${state.targetTier} — ${TIER_NAMES[state.targetTier-1]}, x${qty}\n\n`;
+  text += `Tier 1 items still needed: ${tier1StillNeeded.toLocaleString()}\n`;
+  text += `Total gems needed: ${fmtBoth(gemsNeeded)}\n`;
+  text += `Gems you have: ${fmtBoth(haveGems)}\n`;
+  text += `Gems still missing: ${fmtBoth(stillGems)}\n\n`;
+
+  text += `Step-by-step plan:\n`;
+  let stepNum = 1;
+  rows.forEach(r => {
+    if(r.owned > 0){
+      text += `  ${stepNum++}. Use ${r.owned.toLocaleString()} owned Tier ${r.tier} item(s) directly — no crafting needed.\n`;
+    }
+    if(r.stillCraft > 0){
+      if(r.tier === 1){
+        text += `  ${stepNum++}. Obtain ${r.stillCraft.toLocaleString()} new Tier 1 item(s) — ${fmtBoth(r.gemsForTier)} gems.\n`;
+      } else {
+        text += `  ${stepNum++}. Use ${(r.stillCraft*branch).toLocaleString()} Tier ${r.tier-1} item(s) to craft ${r.stillCraft.toLocaleString()} Tier ${r.tier} item(s) — ${fmtBoth(r.gemsForTier)} gems.\n`;
+      }
+    }
+  });
+  if(stepNum === 1) text += `  Nothing to craft — already covered by items you own.\n`;
+
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 1600);
+});
+
+/* ---------- RENDER ---------- */
+function render(){
+  const tiers = getTiers();
+  const branch = getBranch();
+  const idx = state.targetTier - 1;
+
+  document.getElementById('baseItemLine').innerHTML =
+    `<span class="swatch"></span> Base item: ${baseItemName()}${state.category==='clover' ? ' · ' + state.variant + ' quality' : ''}`;
+
+  const qty = Math.max(1, parseAbbrev(qtyInput.value) || 1);
+  const haveByTier = getHaveByTier();
+  const haveGems = parseAbbrev(haveGemsInput.value);
+
+  updateHaveGridVisibility();
+
+  const mainResult = computeBreakdown(tiers, branch, state.targetTier, qty, haveByTier);
+  const { rows, gemsNeeded, tier1StillNeeded } = mainResult;
+  const stillGems = Math.max(0, gemsNeeded - haveGems);
+  const ready = tier1StillNeeded === 0 && stillGems === 0;
+
+  document.getElementById('valT1').textContent = tier1StillNeeded.toLocaleString();
+  document.getElementById('valGemsNeeded').textContent = fmt(gemsNeeded);
+  document.getElementById('exGemsNeeded').textContent = Math.round(gemsNeeded).toLocaleString();
+  document.getElementById('valGemsHave').textContent = fmt(haveGems);
+  document.getElementById('exGemsHave').textContent = haveGems.toLocaleString();
+  document.getElementById('valGemsMissing').textContent = fmt(stillGems);
+  document.getElementById('exGemsMissing').textContent = Math.round(stillGems).toLocaleString();
+  document.getElementById('valStatus').textContent = ready ? 'Ready ✓' : 'Short';
+
+  document.getElementById('cardT1').className = 'result-card ' + (tier1StillNeeded === 0 ? 'ready' : 'short');
+  document.getElementById('cardGemsMissing').className = 'result-card ' + (stillGems === 0 ? 'ready' : 'short');
+  document.getElementById('cardStatus').className = 'result-card ' + (ready ? 'ready' : 'short');
+
+  /* ---------- NARRATIVE CRAFTING PLAN ---------- */
+  const planSteps = document.getElementById('planSteps');
+  const stepsHtml = [];
+  rows.forEach(r => {
+    if(r.owned > 0){
+      stepsHtml.push(
+        `<li class="owned-step">Use <b>${r.owned.toLocaleString()}</b> Tier ${r.tier} item${r.owned===1?'':'s'} you already own directly toward the plan — no crafting needed for these.</li>`
+      );
+    }
+    if(r.stillCraft > 0){
+      if(r.tier === 1){
+        stepsHtml.push(
+          `<li class="craft-step">Obtain <b>${r.stillCraft.toLocaleString()}</b> new Tier 1 item${r.stillCraft===1?'':'s'} directly (no lower tier required).` +
+          `<span class="plan-gems">Cost: ${fmtBoth(r.gemsForTier)} gems</span></li>`
+        );
+      } else {
+        const inputCount = r.stillCraft * branch;
+        stepsHtml.push(
+          `<li class="craft-step">Use <b>${inputCount.toLocaleString()}</b> Tier ${r.tier-1} item${inputCount===1?'':'s'} to craft <b>${r.stillCraft.toLocaleString()}</b> Tier ${r.tier} item${r.stillCraft===1?'':'s'}.` +
+          `<span class="plan-gems">Cost: ${fmtBoth(r.gemsForTier)} gems</span></li>`
+        );
+      }
+    }
+  });
+  planSteps.innerHTML = stepsHtml.length
+    ? stepsHtml.join('')
+    : `<p class="plan-empty">Nothing to craft — you already own enough at Tier ${state.targetTier} for this request.</p>`;
+
+  const table = document.getElementById('tierTable');
+  const variantHeader = state.category === 'clover' ? `${state.variant} ` : '';
+  table.innerHTML = `
+    <tr>
+      <th>Tier</th>
+      <th>Tier 1 needed</th>
+      <th>${variantHeader}Cost per craft</th>
+      <th>${variantHeader}Total from scratch</th>
+    </tr>
+    ${tiers.map((t,i) => `
+      <tr class="${i === idx ? 'target-row' : ''}">
+        <td><span class="tier-badge" style="background:${TIER_COLORS[i]}; color:${TIER_TEXT[i]}">T${i+1}</span></td>
+        <td>${t.needed.toLocaleString()}</td>
+        <td>${fmtBoth(t.cost)}</td>
+        <td>${fmtBoth(t.total)}</td>
+      </tr>
+    `).join('')}
+  `;
+}
+render();
+</script>
+
+</body>
+</html>
