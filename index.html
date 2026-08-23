@@ -27,11 +27,11 @@
   body::before{
     content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
     background:
-      radial-gradient(circle at 8% 12%, rgba(255,199,0,0.20), transparent 32%),
-      radial-gradient(circle at 92% 8%, rgba(11,107,255,0.16), transparent 34%),
-      radial-gradient(circle at 85% 55%, rgba(255,47,158,0.14), transparent 34%),
-      radial-gradient(circle at 10% 65%, rgba(18,196,139,0.14), transparent 32%),
-      radial-gradient(circle at 50% 95%, rgba(255,67,26,0.14), transparent 36%);
+      radial-gradient(ellipse 60% 50% at 12% 8%, rgba(255,199,0,0.28), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 90% 12%, rgba(11,107,255,0.22), transparent 60%),
+      radial-gradient(ellipse 60% 55% at 82% 88%, rgba(255,67,26,0.20), transparent 62%),
+      radial-gradient(ellipse 55% 50% at 8% 85%, rgba(18,196,139,0.18), transparent 60%),
+      linear-gradient(160deg, #fffceb 0%, #faf8f2 45%, #fef4ee 100%);
   }
   ::selection{background:var(--yellow); color:var(--ink);}
   a{color:inherit;}
@@ -43,7 +43,9 @@
   .brand{ font-family:'Anton', sans-serif; font-size:1.25rem; letter-spacing:1px; display:flex; align-items:center; gap:10px; }
   .brand .dot{width:12px; height:12px; background:var(--orange); border-radius:2px;}
   nav ul{list-style:none; display:flex; gap:24px;}
-  nav a{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1.2px; text-decoration:none; color:var(--ink-dim); transition:color .15s; }
+  nav a{ position:relative; font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1.2px; text-decoration:none; color:var(--ink-dim); transition:color .15s; }
+  nav a::after{ content:""; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:var(--orange); transition:width .2s ease; }
+  nav a:hover::after, nav a:focus-visible::after{ width:100%; }
   nav a:hover, nav a:focus-visible{color:var(--orange);}
   .nav-cta{ font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; background:var(--ink); color:var(--yellow); padding:10px 18px; text-decoration:none; border:2px solid var(--ink); transition:background .15s, color .15s; }
   .nav-cta:hover{background:var(--orange); color:var(--ink); border-color:var(--orange);}
@@ -51,12 +53,13 @@
 
   .hero{ position:relative; padding:100px 24px 70px; max-width:1220px; margin:0 auto; text-align:center; }
   .hero::before{ content:""; position:absolute; inset:0; background:
-      radial-gradient(circle at 20% 10%, rgba(255,199,0,0.32), transparent 45%),
-      radial-gradient(circle at 82% 15%, rgba(11,107,255,0.24), transparent 45%),
-      radial-gradient(circle at 55% 85%, rgba(255,47,158,0.16), transparent 45%);
+      radial-gradient(ellipse 70% 55% at 22% 5%, rgba(255,199,0,0.38), transparent 55%),
+      radial-gradient(ellipse 65% 55% at 85% 20%, rgba(11,107,255,0.28), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 50% 95%, rgba(255,67,26,0.20), transparent 55%);
     pointer-events:none; z-index:0; }
   .hero > *{position:relative; z-index:1;}
-  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--ink); background:var(--yellow); padding:6px 14px; margin-bottom:28px; border:2px solid var(--ink); }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--ink); background:var(--yellow); padding:6px 14px; margin-bottom:28px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); animation:eyebrow-pulse 3s ease-in-out infinite; }
+  @keyframes eyebrow-pulse{ 0%,100%{ box-shadow:3px 3px 0 var(--ink); } 50%{ box-shadow:3px 3px 0 var(--ink), 0 0 18px rgba(255,199,0,0.5); } }
   h1.title{ font-family:'Anton', sans-serif; font-size:clamp(2.8rem, 9vw, 6.6rem); line-height:0.92; letter-spacing:1px; text-transform:uppercase; color:var(--ink); }
   h1.title span{color:var(--orange);}
   .tagline{ font-family:'Barlow Condensed', sans-serif; font-weight:600; font-size:clamp(1.05rem, 2.3vw, 1.5rem); letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); margin:22px auto 40px; max-width:640px; }
@@ -70,7 +73,8 @@
   .btn-ghost:hover{box-shadow:6px 6px 0 var(--ink);}
 
   .stats{ max-width:1220px; margin:0 auto; padding:0 24px 80px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .stat{ background:var(--panel); border:2px solid var(--ink); padding:28px 20px; text-align:center; box-shadow:5px 5px 0 var(--ink); }
+  .stat{ background:var(--panel); border:2px solid var(--ink); padding:28px 20px; text-align:center; box-shadow:5px 5px 0 var(--ink); transition:transform .15s ease, box-shadow .15s ease; }
+  .stat:hover{ transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--ink); }
   .stat:nth-child(1){border-top:6px solid var(--yellow);}
   .stat:nth-child(2){border-top:6px solid var(--blue);}
   .stat:nth-child(3){border-top:6px solid var(--green);}
@@ -84,13 +88,11 @@
   @media (prefers-reduced-motion: reduce){ .conveyor-track{animation:none;} }
 
   section{max-width:1220px; margin:0 auto; padding:90px 24px;}
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
   .kicker{ font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
   h2{ font-family:'Anton', sans-serif; text-transform:uppercase; font-size:clamp(1.9rem, 4.2vw, 3rem); letter-spacing:0.5px; margin-bottom:16px; }
   .lede{color:var(--ink-dim); font-size:1.05rem; max-width:680px; line-height:1.6;}
-
-  .about-list{list-style:none; margin-top:26px; display:grid; gap:14px;}
-  .about-list li{display:flex; gap:14px; font-size:1rem;}
-  .about-list .tag{font-family:'JetBrains Mono', monospace; color:var(--orange); flex:0 0 auto; font-weight:700;}
 
   .loop{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:50px;}
   .loop-step{background:var(--panel); border:2px solid var(--ink); padding:26px 20px; box-shadow:5px 5px 0 var(--ink);}
@@ -101,17 +103,19 @@
 
   /* CRAFTING */
   .craft-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-top:40px;}
-  .craft-tab{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.95rem; padding:12px 22px; border:2px solid var(--ink); background:var(--panel); cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:background .12s,color .12s; }
+  .craft-tab{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.95rem; padding:12px 22px; border:2px solid var(--ink); background:var(--panel); cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:background .12s,color .12s,transform .12s,box-shadow .12s; }
+  .craft-tab:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink); }
   .craft-tab.active{background:linear-gradient(135deg, var(--orange), var(--pink)); color:#fff; border-color:var(--ink);}
 
   .variant-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:20px;}
-  .vbtn{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; padding:8px 14px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; }
+  .vbtn{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; padding:8px 14px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; transition:transform .12s, background .12s; }
+  .vbtn:hover{ transform:translateY(-2px); background:var(--panel-2); }
   .vbtn.active{background:linear-gradient(135deg, var(--blue), var(--purple)); color:#fff; border-color:var(--ink);}
 
   .tier-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
   .tier-chip{ font-family:'JetBrains Mono', monospace; font-size:0.68rem; font-weight:700; letter-spacing:0.5px; padding:5px 10px; border:2px solid var(--ink); text-transform:uppercase; }
 
-  .craft-panel{margin-top:34px; background:var(--panel); border:2px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:28px;}
+  .craft-panel{margin-top:34px; background:linear-gradient(165deg, #ffffff 0%, #fffaf0 100%); border:2px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:28px;}
   .craft-panel h3{font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; font-weight:700; font-size:1.15rem; margin-bottom:18px;}
   .base-item{ display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--ink-dim); margin-bottom:22px; text-transform:uppercase; letter-spacing:0.5px;}
   .base-item .swatch{width:16px; height:16px; border:2px solid var(--ink); background:var(--panel-2);}
@@ -141,9 +145,11 @@
   }
   .plan-steps li.owned-step{border-color:var(--green);}
   .plan-steps li.owned-step::before{background:var(--green); color:#fff;}
+  .plan-steps li.craft-step{border-color:var(--orange);}
+  .plan-steps li.craft-step::before{background:var(--orange); color:#fff;}
   .plan-steps li.craft-step b{color:var(--orange);}
   .plan-steps li .plan-gems{font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--ink-dim); display:block; margin-top:4px;}
-  .plan-empty{color:var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:0.85rem;}
+  .plan-empty{ color:var(--ink); font-weight:700; background:#eafff6; border:2px solid var(--green); padding:16px 18px; font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; letter-spacing:0.5px; }
 
   .calc-form{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px; align-items:end;}
   .calc-field label{ display:block; font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim); margin-bottom:8px; }
@@ -151,34 +157,53 @@
   @media (max-width:760px){ .calc-form{grid-template-columns:1fr;} }
 
   .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
-  .btn-util{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.82rem; padding:10px 18px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; transition:background .12s, color .12s; }
+  .btn-util{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.82rem; padding:10px 18px; min-height:40px; border:2px solid var(--ink); background:var(--bg); cursor:pointer; transition:background .12s, color .12s; }
   .btn-util:hover{background:var(--ink); color:var(--yellow);}
   .btn-util.primary{background:var(--blue); color:#fff; border-color:var(--blue);}
   .btn-util.primary:hover{background:#0855cc;}
+  .btn-util.danger{background:var(--panel); color:var(--orange); border-color:var(--orange);}
+  .btn-util.danger:hover{background:var(--orange); color:#fff;}
+
+  .save-status{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-dim); margin-top:10px; }
 
   .tier-have-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(104px,1fr)); gap:10px; margin-top:6px;}
   .tier-have-item{border:2px solid var(--ink); padding:10px; text-align:center; background:var(--bg);}
   .tier-have-item .tlabel{display:inline-block; margin-bottom:8px; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.5px;}
-  .tier-have-item input{width:100%; padding:8px; border:2px solid var(--ink); font-family:'JetBrains Mono',monospace; font-size:0.88rem; text-align:center; background:#fff; color:var(--ink);}
+  .tier-have-item input{width:100%; min-height:40px; padding:8px; border:2px solid var(--ink); font-family:'JetBrains Mono',monospace; font-size:0.88rem; text-align:center; background:#fff; color:var(--ink);}
   .tier-have-item.above-target{opacity:0.4;}
-  .above-note{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:10px;}
+  .above-note{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:10px; line-height:1.6;}
+
+  .whatnext-box{ margin-top:28px; border:2px solid var(--blue); background:#eaf2ff; padding:18px 20px; }
+  .whatnext-box.ready{ border-color:var(--green); background:#eafff6; }
+  .whatnext-title{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; font-size:0.78rem; color:var(--blue); margin-bottom:6px; }
+  .whatnext-box.ready .whatnext-title{color:var(--green);}
+  .whatnext-text{ font-size:1rem; font-weight:600; line-height:1.5; }
+
+  .plan-summary{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; font-size:1rem; background:var(--panel-2); border:2px solid var(--ink); padding:14px 16px; margin-bottom:14px; line-height:1.6; }
+  .plan-summary b{color:var(--orange);}
 
   .result-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:14px; margin-top:26px;}
   .result-card{border:2px solid var(--ink); padding:16px; text-align:center; background:var(--bg);}
   .result-card .rlabel{font-family:'JetBrains Mono', monospace; font-size:0.65rem; letter-spacing:1px; text-transform:uppercase; color:var(--ink-dim);}
   .result-card .rval{font-family:'Anton', sans-serif; font-size:1.3rem; margin-top:6px; word-break:break-word;}
-  .result-card .rexact{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:4px;}
+  .result-card .rexact{font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-dim); margin-top:4px; line-height:1.5;}
   .result-card.ready{border-color:var(--green); background:#eafff6;}
   .result-card.short{border-color:var(--orange); background:#fff1ec;}
 
-  .next-tier-banner{
-    margin-top:32px; background:#eaf2ff; border:2px solid var(--blue);
-    padding:16px 18px; font-family:'Barlow Condensed', sans-serif; font-weight:700;
-    text-transform:uppercase; letter-spacing:0.5px; font-size:1.02rem; color:var(--ink);
+  @media (max-width:380px){
+    section{padding:60px 16px;}
+    .craft-panel{padding:18px;}
+    .btn-util{padding:9px 14px; font-size:0.76rem;}
+    .tier-have-grid{grid-template-columns:repeat(auto-fill, minmax(84px,1fr)); gap:8px;}
+    h1.title{font-size:clamp(2.2rem, 12vw, 4rem);}
   }
-  .next-tier-banner span{color:var(--blue);}
 
-  .edit-note{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-dim); background:var(--panel-2); border:1px dashed var(--ink-dim); padding:12px 16px; margin-top:36px; line-height:1.7; }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  .edit-note{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-dim); background:var(--panel-2); border:1px dashed var(--ink-dim); padding:12px 16px; margin-top:16px; line-height:1.7; }
+  .edit-note:first-of-type{margin-top:36px;}
 
   .codes-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:40px;}
   .code-card{ background:var(--panel); border:2px dashed var(--ink); padding:22px 20px; position:relative; cursor:pointer; transition:transform .12s; }
@@ -219,7 +244,6 @@
     <div class="brand"><span class="dot"></span>WEAPON FACTORY</div>
     <nav>
       <ul>
-        <li><a href="#about">About</a></li>
         <li><a href="#crafting">Crafting</a></li>
       </ul>
     </nav>
@@ -237,7 +261,7 @@
   </div>
 </section>
 
-<div class="stats">
+<div class="stats reveal">
   <div class="stat"><span class="num">3.4Q+</span><span class="label">Possible Weapons</span></div>
   <div class="stat"><span class="num">2D</span><span class="label">Infinite Incremental</span></div>
   <div class="stat"><span class="num">24/7</span><span class="label">Runs While Offline</span></div>
@@ -245,22 +269,8 @@
 
 <div class="conveyor"><div class="conveyor-track"></div></div>
 
-<section id="about">
-  <div class="kicker">// 01 — The Pitch</div>
-  <h2>Build the empire.<br>One weapon at a time.</h2>
-  <p class="lede" style="margin-top:24px;">Weapon Factory drops you on the factory floor with nothing but a spawner and an idea. Every weapon that comes off the line is unique — stack traits, rarities, and stats until you're producing gear that breaks the scale. Sell what you don't need, keep what hits hardest, and reinvest every gem into a bigger, faster, meaner operation.</p>
-  <ul class="about-list">
-    <li><span class="tag">01</span> Unique weapon combinations reach into the quintillions</li>
-    <li><span class="tag">02</span> Two currencies — <b style="color:var(--orange)">Gems</b> for packs, <b style="color:var(--green)">Cash</b> for upgrades</li>
-    <li><span class="tag">03</span> Your factory keeps producing even when you're logged off</li>
-    <li><span class="tag">04</span> Made by RedBolts</li>
-  </ul>
-</section>
-
-<div class="conveyor"><div class="conveyor-track"></div></div>
-
 <section id="crafting">
-  <div class="kicker">// 03 — Workshop</div>
+  <div class="kicker">// 01 — Workshop</div>
   <h2>Crafting calculator</h2>
   <p class="lede">Tier-up crafting for every bag, stone, and item chain in the game. Pick a category, set a target tier and quantity, enter what you already own, and it works out exactly what's still missing — using your owned items first and charging gems only for the crafts you still need.</p>
 
@@ -290,24 +300,34 @@
 
     <div class="btn-row">
       <button class="btn-util" id="resetBtn">Reset</button>
+      <button class="btn-util primary" id="saveBtn">Save Inventory</button>
+      <button class="btn-util danger" id="clearBtn">Clear Saved Data</button>
       <button class="btn-util primary" id="copyBtn">Copy results</button>
     </div>
+    <p class="save-status" id="saveStatus" aria-live="polite">Inventory saves automatically on this device.</p>
 
     <h3 style="margin-top:30px;">Items you currently own, by tier</h3>
     <p class="lede" style="margin-bottom:16px;">Owned items are used up the tier chain before anything new is charged. Tiers above your target aren't used unless the game lets you dismantle down a tier.</p>
     <div class="tier-have-grid" id="tierHaveGrid"></div>
+    <p class="above-note">Tiers above your target are not used because this calculator does not assume dismantling. Their values are still saved.</p>
 
-    <div class="result-grid">
+    <div class="whatnext-box" id="whatNextBox" aria-live="polite">
+      <div class="whatnext-title">What to craft next</div>
+      <div class="whatnext-text" id="whatNextText"></div>
+    </div>
+
+    <div class="result-grid" aria-live="polite">
       <div class="result-card" id="cardT1"><div class="rlabel">Tier 1 items still needed</div><div class="rval" id="valT1"></div></div>
       <div class="result-card" id="cardGemsNeeded"><div class="rlabel">Total gems needed</div><div class="rval" id="valGemsNeeded"></div><div class="rexact" id="exGemsNeeded"></div></div>
       <div class="result-card" id="cardGemsHave"><div class="rlabel">Gems you have</div><div class="rval" id="valGemsHave"></div><div class="rexact" id="exGemsHave"></div></div>
       <div class="result-card" id="cardGemsMissing"><div class="rlabel">Gems still missing</div><div class="rval" id="valGemsMissing"></div><div class="rexact" id="exGemsMissing"></div></div>
-      <div class="result-card" id="cardStatus"><div class="rlabel">Status</div><div class="rval" id="valStatus"></div></div>
+      <div class="result-card" id="cardStatus"><div class="rlabel">Status</div><div class="rval" id="valStatus"></div><div class="rexact" id="statusExplain"></div></div>
     </div>
 
     <h3 style="margin-top:34px;">Crafting plan</h3>
     <p class="lede" style="margin-bottom:12px;">Step by step, lowest tier to highest — exactly what to convert into what, using what you already own first.</p>
-    <ol class="plan-steps" id="planSteps"></ol>
+    <div class="plan-summary" id="planSummary"></div>
+    <ol class="plan-steps" id="planSteps" aria-live="polite"></ol>
 
     <h3 style="margin-top:34px;">Full tier cost reference</h3>
     <div class="table-scroll">
@@ -316,12 +336,13 @@
     <div class="scroll-hint">↔ Swipe to see more columns</div>
   </div>
 
-  <p class="edit-note">This calculator currently covers Artifacts, Pots, Clovers, Stones, Clover Bags, Lucky Boost Bags, Candy Bags, and Food Crates. Send over recipe data for any other craftable category in the game and it can be added here the same way.</p>
+  <p class="edit-note">This calculator currently covers Artifacts, Pots, Clovers, Stones, Clover Bags, Lucky Boost Bags, Candy Bags, and Food Crates. More categories can be added when recipe data is available.</p>
+  <p class="edit-note" id="recipeUpdatedNote"></p>
 </section>
 
 <div class="conveyor"><div class="conveyor-track"></div></div>
 
-<div class="cta-strip">
+<div class="cta-strip reveal">
   <h2>Ready to hit the line?</h2>
   <p>Jump into Weapon Factory and start your empire — it keeps running even after you log off.</p>
   <a class="btn btn-primary" href="https://www.roblox.com/games/108452487199736" target="_blank" rel="noopener">▶ Play on Roblox</a>
@@ -334,12 +355,65 @@
   <p>Unofficial fan site. Not affiliated with Roblox Corporation or RedBolts.<br>Weapon Factory and all game assets belong to their respective creators.</p>
 </footer>
 
-<div class="toast" id="toast">Copied!</div>
+<div class="toast" id="toast" aria-live="polite">Copied!</div>
 
 <script>
 /* ============================================================
+   EASILY-EDITABLE CONSTANTS
+   Update this date whenever the recipe data below is refreshed.
+============================================================ */
+const RECIPE_DATA_UPDATED = 'August 23, 2026';
+
+/* ============================================================
+   LOCAL STORAGE — safe wrappers so the page never throws if
+   localStorage is unavailable (private browsing, disabled, etc).
+============================================================ */
+const STORAGE_KEY = 'weaponFactoryCalculator.v1';
+
+function safeStorageGet(key){
+  try{
+    if(typeof localStorage === 'undefined') return null;
+    return localStorage.getItem(key);
+  }catch(e){ return null; }
+}
+function safeStorageSet(key, value){
+  try{
+    if(typeof localStorage === 'undefined') return false;
+    localStorage.setItem(key, value);
+    return true;
+  }catch(e){ return false; }
+}
+function safeStorageRemove(key){
+  try{
+    if(typeof localStorage === 'undefined') return false;
+    localStorage.removeItem(key);
+    return true;
+  }catch(e){ return false; }
+}
+// One-time capability check so the save-status line is accurate from the start.
+const STORAGE_AVAILABLE = (function(){
+  const testKey = '__wf_storage_test__';
+  const ok = safeStorageSet(testKey, '1');
+  if(ok) safeStorageRemove(testKey);
+  return ok;
+})();
+
+function loadSavedData(){
+  const raw = safeStorageGet(STORAGE_KEY);
+  if(!raw) return null;
+  try{
+    const parsed = JSON.parse(raw);
+    return (parsed && typeof parsed === 'object') ? parsed : null;
+  }catch(e){ return null; }
+}
+
+/* ============================================================
    DATA — straight from the in-game crafting tables.
-   Add Potions / the other categories the same way.
+   To add another category, add a new key below CATEGORIES
+   following the same shape: { label, baseItem, branch, tiers:[{needed,cost,total}, ...] }.
+   Clovers use `variants` + `costTotalByVariant` instead of a flat `tiers`
+   array because each quality tier costs differently — follow that pattern
+   only if a new category also has multiple quality variants.
 ============================================================ */
 const TIER_COLORS = ["#9CA3AF","#22C55E","#22D3EE","#A855F7","#FACC15","#EC4899","#EF4444","#38BDF8","#166534","#0A0A0A"];
 const TIER_TEXT   = ["#111111","#ffffff","#111111","#ffffff","#111111","#ffffff","#ffffff","#111111","#ffffff","#ffffff"];
@@ -470,6 +544,17 @@ const CATEGORIES = {
 
 const state = { category:"artifact", variant:"Normal", targetTier:10 };
 
+// Apply any saved selections (category/variant/target tier) before the
+// tabs, variant buttons, and target-tier select get built below, so the
+// initial UI already reflects what was saved last time.
+const SAVED_DATA = loadSavedData();
+if(SAVED_DATA){
+  if(SAVED_DATA.category && CATEGORIES[SAVED_DATA.category]) state.category = SAVED_DATA.category;
+  if(SAVED_DATA.variant && CATEGORIES.clover.variants.includes(SAVED_DATA.variant)) state.variant = SAVED_DATA.variant;
+  const savedTier = parseInt(SAVED_DATA.targetTier);
+  if(savedTier >= 1 && savedTier <= 10) state.targetTier = savedTier;
+}
+
 // Suffix scale used for both parsing input ("2.5m") and display formatting.
 const SUFFIX_SCALE = [
   { suffix:"Sp", mult:1e24 }, { suffix:"Sx", mult:1e21 },
@@ -587,10 +672,12 @@ function zeroOnBlur(input, floorVal){
 }
 
 const qtyInput = document.getElementById('qtyToCraft');
+if(SAVED_DATA && SAVED_DATA.qty !== undefined) qtyInput.value = SAVED_DATA.qty;
 qtyInput.addEventListener('input', render);
 zeroOnBlur(qtyInput, 1);
 
 const haveGemsInput = document.getElementById('haveGems');
+if(SAVED_DATA && SAVED_DATA.haveGems !== undefined) haveGemsInput.value = SAVED_DATA.haveGems;
 haveGemsInput.addEventListener('input', render);
 zeroOnBlur(haveGemsInput, 0);
 
@@ -600,9 +687,11 @@ for(let i=1;i<=10;i++){
   const wrap = document.createElement('div');
   wrap.className = 'tier-have-item';
   wrap.id = `tierHaveWrap${i}`;
+  const savedVal = (SAVED_DATA && Array.isArray(SAVED_DATA.tierHave) && SAVED_DATA.tierHave[i-1] !== undefined)
+    ? SAVED_DATA.tierHave[i-1] : '0';
   wrap.innerHTML = `
     <span class="tlabel" style="background:${TIER_COLORS[i-1]}; color:${TIER_TEXT[i-1]}">T${i}</span>
-    <input type="text" inputmode="text" id="tierHave${i}" value="0" placeholder="0">
+    <input type="text" inputmode="text" id="tierHave${i}" value="${savedVal}" placeholder="0" aria-label="Tier ${i} items owned">
   `;
   tierHaveGrid.appendChild(wrap);
   wrap.querySelector('input').addEventListener('input', render);
@@ -660,7 +749,34 @@ function updateHaveGridVisibility(){
   }
 }
 
-/* ---------- RESET & COPY ---------- */
+/* ---------- SAVE / LOAD (localStorage) ---------- */
+function updateSaveStatus(message){
+  const el = document.getElementById('saveStatus');
+  if(!el) return;
+  el.textContent = message || (STORAGE_AVAILABLE
+    ? 'Inventory saves automatically on this device.'
+    : "Auto-save isn't available in this browser — use Save Inventory or Copy Results to keep your numbers.");
+}
+
+function saveState(){
+  const data = {
+    category: state.category,
+    variant: state.variant,
+    targetTier: state.targetTier,
+    qty: qtyInput.value,
+    haveGems: haveGemsInput.value,
+    tierHave: Array.from({ length:10 }, (_, i) => {
+      const el = document.getElementById(`tierHave${i+1}`);
+      return el ? el.value : '0';
+    })
+  };
+  return safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+}
+
+// Initialize the save-status line to reflect actual storage capability.
+updateSaveStatus();
+
+/* ---------- RESET / SAVE / CLEAR / COPY ---------- */
 document.getElementById('resetBtn').addEventListener('click', () => {
   qtyInput.value = 1;
   haveGemsInput.value = 0;
@@ -668,8 +784,50 @@ document.getElementById('resetBtn').addEventListener('click', () => {
     const inp = document.getElementById(`tierHave${i}`);
     if(inp) inp.value = 0;
   }
-  render();
+  render(); // render() saves automatically, so a refresh won't restore old inventory
+  updateSaveStatus('Form reset — saved data updated to match.');
 });
+
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const ok = saveState();
+  const toast = document.getElementById('toast');
+  toast.textContent = ok ? 'Inventory saved!' : "Couldn't save (storage unavailable)";
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 1600);
+  updateSaveStatus(ok ? 'Saved just now.' : "Couldn't save — this browser blocks local storage.");
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  safeStorageRemove(STORAGE_KEY);
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Saved data cleared';
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 1600);
+  updateSaveStatus('Saved data cleared. Nothing will be restored on refresh until you save again.');
+});
+
+// Copies text to the clipboard, falling back to a hidden textarea +
+// execCommand for browsers where navigator.clipboard isn't available.
+function copyToClipboard(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => fallbackCopy(text));
+  }
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text){
+  try{
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  }catch(e){ return false; }
+}
 
 document.getElementById('copyBtn').addEventListener('click', () => {
   const tiers = getTiers();
@@ -680,7 +838,11 @@ document.getElementById('copyBtn').addEventListener('click', () => {
   const mainResult = computeBreakdown(tiers, branch, state.targetTier, qty, haveByTier);
   const { rows, gemsNeeded, tier1StillNeeded } = mainResult;
   const stillGems = Math.max(0, gemsNeeded - haveGems);
-  const ready = tier1StillNeeded === 0 && stillGems === 0;
+  const itemsShort = tier1StillNeeded > 0;
+  const gemsShort = stillGems > 0;
+  const ready = !itemsShort && !gemsShort;
+  const status = getStatus(itemsShort, gemsShort);
+  const whatNext = getWhatNext(rows, branch, ready);
   const catLabel = CATEGORIES[state.category].label + (state.category === 'clover' ? ` (${state.variant})` : '');
 
   let text = `WEAPON FACTORY — Crafting Plan\n`;
@@ -689,7 +851,9 @@ document.getElementById('copyBtn').addEventListener('click', () => {
   text += `Tier 1 items still needed: ${tier1StillNeeded.toLocaleString()}\n`;
   text += `Total gems needed: ${fmtBoth(gemsNeeded)}\n`;
   text += `Gems you have: ${fmtBoth(haveGems)}\n`;
-  text += `Gems still missing: ${fmtBoth(stillGems)}\n\n`;
+  text += `Gems still missing: ${fmtBoth(stillGems)}\n`;
+  text += `Status: ${status.label}${status.explain ? ' — ' + status.explain : ''}\n\n`;
+  text += `What to craft next: ${whatNext.text}\n\n`;
 
   text += `Step-by-step plan:\n`;
   let stepNum = 1;
@@ -707,13 +871,55 @@ document.getElementById('copyBtn').addEventListener('click', () => {
   });
   if(stepNum === 1) text += `  Nothing to craft — already covered by items you own.\n`;
 
-  navigator.clipboard.writeText(text).catch(()=>{});
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(()=> toast.classList.remove('show'), 1600);
+  copyToClipboard(text).then(ok => {
+    const toast = document.getElementById('toast');
+    toast.textContent = ok ? 'Copied!' : "Couldn't copy — select and copy manually";
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 1600);
+  });
 });
 
 /* ---------- RENDER ---------- */
+// Builds the READY TO CRAFT / NEED MORE ITEMS / NEED MORE GEMS / NEED ITEMS + GEMS
+// status, plus a one-line plain-English explanation for when it's not ready.
+function getStatus(itemsShort, gemsShort){
+  if(!itemsShort && !gemsShort){
+    return { label:'READY TO CRAFT', cls:'ready', explain:'' };
+  }
+  if(itemsShort && gemsShort){
+    return { label:'NEED ITEMS + GEMS', cls:'short', explain:"You're short on both crafting materials and gems." };
+  }
+  if(itemsShort){
+    return { label:'NEED MORE ITEMS', cls:'short', explain:'You have enough gems, but not enough materials to craft this yet.' };
+  }
+  return { label:'NEED MORE GEMS', cls:'short', explain:'You have enough materials, but not enough gems to cover the crafting cost.' };
+}
+
+// Builds the "What to craft next" instruction from the first actionable
+// step in the plan (rows are sorted ascending, Tier 1 → target already).
+function getWhatNext(rows, branch, ready){
+  if(ready){
+    return { text:'You already have everything needed for this target. You are ready to craft.', mode:'ready' };
+  }
+  const firstShort = rows.find(r => r.stillCraft > 0);
+  if(!firstShort){
+    return { text:'You already have everything needed for this target. You are ready to craft.', mode:'ready' };
+  }
+  if(firstShort.tier === 1){
+    const n = firstShort.stillCraft;
+    return {
+      text:`Get ${n.toLocaleString()} new Tier 1 item${n===1?'':'s'} first. Estimated cost: ${fmtBoth(firstShort.gemsForTier)} gems.`,
+      mode:'action'
+    };
+  }
+  const inputCount = firstShort.stillCraft * branch;
+  const outputCount = firstShort.stillCraft;
+  return {
+    text:`Use ${inputCount.toLocaleString()} Tier ${firstShort.tier-1} item${inputCount===1?'':'s'} to craft ${outputCount.toLocaleString()} Tier ${firstShort.tier} item${outputCount===1?'':'s'}. Cost: ${fmtBoth(firstShort.gemsForTier)} gems.`,
+    mode:'action'
+  };
+}
+
 function render(){
   const tiers = getTiers();
   const branch = getBranch();
@@ -731,7 +937,9 @@ function render(){
   const mainResult = computeBreakdown(tiers, branch, state.targetTier, qty, haveByTier);
   const { rows, gemsNeeded, tier1StillNeeded } = mainResult;
   const stillGems = Math.max(0, gemsNeeded - haveGems);
-  const ready = tier1StillNeeded === 0 && stillGems === 0;
+  const itemsShort = tier1StillNeeded > 0;
+  const gemsShort = stillGems > 0;
+  const ready = !itemsShort && !gemsShort;
 
   document.getElementById('valT1').textContent = tier1StillNeeded.toLocaleString();
   document.getElementById('valGemsNeeded').textContent = fmt(gemsNeeded);
@@ -740,11 +948,25 @@ function render(){
   document.getElementById('exGemsHave').textContent = haveGems.toLocaleString();
   document.getElementById('valGemsMissing').textContent = fmt(stillGems);
   document.getElementById('exGemsMissing').textContent = Math.round(stillGems).toLocaleString();
-  document.getElementById('valStatus').textContent = ready ? 'Ready ✓' : 'Short';
 
-  document.getElementById('cardT1').className = 'result-card ' + (tier1StillNeeded === 0 ? 'ready' : 'short');
-  document.getElementById('cardGemsMissing').className = 'result-card ' + (stillGems === 0 ? 'ready' : 'short');
-  document.getElementById('cardStatus').className = 'result-card ' + (ready ? 'ready' : 'short');
+  const status = getStatus(itemsShort, gemsShort);
+  document.getElementById('valStatus').textContent = status.label;
+  document.getElementById('statusExplain').textContent = status.explain;
+
+  document.getElementById('cardT1').className = 'result-card ' + (itemsShort ? 'short' : 'ready');
+  document.getElementById('cardGemsMissing').className = 'result-card ' + (gemsShort ? 'short' : 'ready');
+  document.getElementById('cardStatus').className = 'result-card ' + status.cls;
+
+  /* ---------- WHAT TO CRAFT NEXT ---------- */
+  const whatNext = getWhatNext(rows, branch, ready);
+  document.getElementById('whatNextText').textContent = whatNext.text;
+  document.getElementById('whatNextBox').className = 'whatnext-box' + (whatNext.mode === 'ready' ? ' ready' : '');
+
+  /* ---------- PLAN SUMMARY LINE ---------- */
+  const catLabelShort = CATEGORIES[state.category].label.replace(/s$/, '');
+  const planSummary = document.getElementById('planSummary');
+  planSummary.innerHTML = `Target: <b>${qty.toLocaleString()} Tier ${state.targetTier} ${catLabelShort}${qty===1?'':'s'}</b> — ` +
+    `Total cost: <b>${fmt(gemsNeeded)}</b> gems — You still need: <b>${fmt(stillGems)}</b> gems.`;
 
   /* ---------- NARRATIVE CRAFTING PLAN ---------- */
   const planSteps = document.getElementById('planSteps');
@@ -772,7 +994,7 @@ function render(){
   });
   planSteps.innerHTML = stepsHtml.length
     ? stepsHtml.join('')
-    : `<p class="plan-empty">Nothing to craft — you already own enough at Tier ${state.targetTier} for this request.</p>`;
+    : `<li class="plan-empty">✓ Nothing to craft — you already own enough at Tier ${state.targetTier} for this request. You are ready to craft.</li>`;
 
   const table = document.getElementById('tierTable');
   const variantHeader = state.category === 'clover' ? `${state.variant} ` : '';
@@ -792,8 +1014,36 @@ function render(){
       </tr>
     `).join('')}
   `;
+
+  // Auto-save on every relevant change (this function runs on every input/tab/select change).
+  saveState();
 }
 render();
+
+// Render the editable "recipe data last updated" date into the page.
+const recipeNote = document.getElementById('recipeUpdatedNote');
+if(recipeNote){
+  recipeNote.textContent = `Recipe data last updated: ${RECIPE_DATA_UPDATED}. Recipes can change with game updates; verify costs before a large craft.`;
+}
+
+/* ---------- SCROLL REVEAL (decorative only, never hides functional UI) ---------- */
+(function(){
+  const revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.15 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    // No IntersectionObserver support — just show everything immediately.
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+})();
 </script>
 
 </body>
