@@ -2474,6 +2474,25 @@ const MAX_TEAM_SIZE = 4;
 // team are all "% of Best Card" pets (like Cloud/Taco), a 5th slot opens up —
 // since a team of all-percent pets has nothing to scale off, this lets you
 // add one more (typically a regular pet) to give them a base to work from.
+// "% of Best Card" pets (every Eternal, plus the Exclusive-rarity ones like
+// Dominus or Blue Flame) have no stats of their own — they scale off the best
+// regular card on the team.
+function isPercentPet(pet){
+  return !!(pet && pet.card && pet.card.bestCardPctByQuality);
+}
+
+// The bonus 5th slot exists purely to give the four % pets something to scale
+// off, so it only accepts a regular pet. Returns null when the pet can be
+// added, or a short reason why it can't.
+function whyCantAdd(pet){
+  const max = getEffectiveMaxTeamSize();
+  if(petTeam.length >= max) return 'Team is full';
+  if(petTeam.length >= MAX_TEAM_SIZE && isPercentPet(pet)){
+    return 'Slot 5 needs a regular pet';
+  }
+  return null;
+}
+
 function getEffectiveMaxTeamSize(){
   const first4 = petTeam.slice(0, MAX_TEAM_SIZE);
   if(first4.length === MAX_TEAM_SIZE){
@@ -2526,26 +2545,29 @@ function renderPetSearchResults(query){
     box.innerHTML = `<div class="pet-search-empty">No pets found matching "${query}".</div>`;
     return;
   }
-  const teamFull = petTeam.length >= getEffectiveMaxTeamSize();
   box.innerHTML = matches.map(p => {
     const rc = RARITY_COLORS[p.rarity] || RARITY_COLORS.Common;
     const thumbStyle = getPetThumbStyle(p);
+    const blocked = whyCantAdd(p);
+    const meta = blocked ? `${p.rarity} · ${blocked}` : `${p.rarity} · ${p.packName}`;
     return `
-      <button type="button" class="pet-result-tile${teamFull ? ' disabled' : ''}" data-pet-id="${p.id}" ${teamFull ? 'disabled' : ''}>
+      <button type="button" class="pet-result-tile${blocked ? ' disabled' : ''}" data-pet-id="${p.id}"
+        ${blocked ? `disabled title="${blocked}"` : ''}>
         <span class="pet-result-thumb" style="${thumbStyle} border-color:${rc.square};"></span>
         <span class="pet-result-info">
           <span class="pet-result-name">${p.name}</span>
-          <span class="pet-result-meta">${p.rarity} · ${p.packName}</span>
+          <span class="pet-result-meta">${meta}</span>
         </span>
-        <span class="pet-result-add" aria-hidden="true">+</span>
+        <span class="pet-result-add" aria-hidden="true">${blocked ? '\u2014' : '+'}</span>
       </button>
     `;
   }).join('');
 
   box.querySelectorAll('.pet-result-tile').forEach(tile => {
     tile.addEventListener('click', () => {
-      if(petTeam.length >= getEffectiveMaxTeamSize()) return;
       const petId = tile.dataset.petId;
+      const pet = ALL_PETS.find(p => p.id === petId);
+      if(whyCantAdd(pet)) return;
       petTeam.push({ petId, quality: 'Normal', level: 0 });
       renderPetTeam();
       renderPetSearchResults(document.getElementById('petSearchInput').value);
@@ -2699,7 +2721,7 @@ function renderPetTeam(){
     const gemBase = totals.bestGems ? `, best Gems ${formatMult(totals.bestGems)}x` : ', no gem pet in team yet';
     bestNote.textContent = `Best card in team: ${totals.bestName} (${formatMult(totals.bestMoney)}x${gemBase}) — used as the base for % of Best Card pets, which now scale Money, Exp and Gems.`;
   } else if(totals.hasPctMembers && effectiveMax > MAX_TEAM_SIZE){
-    bestNote.textContent = `All 4 pets are % of Best Card pets, so a 5th slot has opened up — add a regular pet for them to scale off of.`;
+    bestNote.textContent = `All 4 pets are % of Best Card pets, so a 5th slot has opened up. It only takes a regular pet — another Eternal or % of Best Card pet would have nothing to scale off, so those are greyed out in the search.`;
   } else if(totals.hasPctMembers){
     bestNote.textContent = `Add a regular (non-% of Best Card) pet to your team so % of Best Card pets have a base to calculate from.`;
   } else {
